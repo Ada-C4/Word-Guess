@@ -71,7 +71,7 @@ class Board
     puts cheese_3 * @strikes
     puts cheese_4 * @strikes
     puts ""
-    underscores
+    #underscores   # this might be an issue
   end
 
   def underscores
@@ -82,7 +82,7 @@ class Board
 
     puts @blanks.join(" ")
     puts ""
-
+    # return @blanks  # including this makes it accessible as an array
   end
 
 end
@@ -93,6 +93,7 @@ def play_mouse_party
   game = Game.new
   board = Board.new(game)
   print board.display
+  puts board.underscores
   puts "The length of the random word is #{game.word.length}"
   puts "The word is #{game.word}"
 
