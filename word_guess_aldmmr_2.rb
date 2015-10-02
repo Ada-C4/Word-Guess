@@ -56,10 +56,12 @@ class Game
     #RIGHT NOW including right and wrong guesses here!
 
     #compare the two arrays (answer_chararray and guessed_letter)
+    i = 0
     @answer_chararray.each do |char|
       if guessed_letter == char
       #replace the "_" in @progress_array with the letter
-      char.index
+      progress_array[i].replace(char)
+      i += 1
       end
 
   def find_letter_matches
