@@ -5,6 +5,11 @@ possible_words = []
 
 game_word = possible_answers.sample
 
+
+def split_word
+  #create new array with one letter per slot
+end
+
 # print ascii art
 
 
@@ -12,16 +17,16 @@ game_word = possible_answers.sample
 puts "Let's play a game! I'm going to choose a word, and you have to guess a letter each turn."
 
 
-past_choices = []
+past_guesses = []
 # Get user input and put into user array
-user_choice = gets.chomp
+guess = gets.chomp
 # Push user choice into array for past choices
-past_choices.push(user_choice)
+past_guesses.push(user_choice)
 
-if user_choice == game_word.include?
+if guess == game_word.include?
   # switch space for letter
   # puts something to tell them
-elsif user_choice != game_word.include?
+elsif guess != game_word.include?
   # change ASCII art
   # tell them something
 end
@@ -29,16 +34,19 @@ end
 # display past choices
 puts "You've already chosen these letters: #{past_choices}"
 
-# check against answer
 #
 # new display
-#    shows answers if correct
-#    change hockey player if wrong
-# regardless displays correct answers
 #
 # loop until win or lose
-#
-# decide
+GAME_WIN
 
-# of wrong guesses
-# how to pick words
+if score.all? { |s| s == MATCH_EXACT }
+  # Player wins if they have an exact match for every guess
+  @outcome = GAME_WIN
+elsif @guesses.length == MAX_TURNS
+  # Player loses if they reach the maximum number of turns
+  @outcome = GAME_LOSE
+end
+end
+#
+# decide number of wrong guesses
