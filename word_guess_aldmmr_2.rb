@@ -5,8 +5,12 @@
 #in new_guess might need guessed_letter.dup
 #could separate out checking guesses as a method from new_guess
 #initializing @progress_array, variables found ok?
+#progress array in right place
+#defining art_array - where to put it?
 
 require "colorize"
+
+ARTWORK ="""
           __    __    __
          |==|  |==|  |==|
        __|__|__|__|__|__|_
@@ -15,8 +19,9 @@ require "colorize"
 |.............................o.../
  \.............................../
  _,~')_,~')_,~')_,~')_,~')_,~')_,~')/,~')_
+ """
 
-MAX_TURNS #we're going to try to have this depend on artwork, so it might become a variable at some point.
+MAX_TURNS = (ARTWORK.lines.length - 2)
 
 GAME_WIN = :win
 GAME_LOSE = :lose
@@ -50,6 +55,7 @@ class Game
     chosen_word.split("")
   end
 
+    art_array = ARTWORK.lines
   def new_guess(guessed_letter)
     #save copy of guess and add it to an array of guesses
     @guesses.push(guessed_letter)
@@ -59,13 +65,24 @@ class Game
     i = 0
     @answer_chararray.each do |char|
       if guessed_letter == char
-      #replace the "_" in @progress_array with the letter
-      progress_array[i].replace(char)
-      i += 1
+        #replace the "_" in @progress_array with the letter
+        @progress_array[i].replace(char)
+        i += 1
+      else
+        wrong_guess
       end
 
-  def find_letter_matches
-  end
+  def wrong_guess(guessed_letter)
+    art_array = art_array.delete_at(art_array.length - 1)
+
+    #last element in the array is the one we want to KEEP unchanged
+    #remove an element that is second to last
+    #print that string
+
+    #delete a line from the artwork
+    #add wrong guess to an wrong_guess_array
+    #give a message
+    #pass progress_array to the Board
 
   def finished?
 
@@ -84,10 +101,9 @@ class Board
     # show status messages about game outcome (win, lose, guess again)
 
     # first show artwork
-    current_artwork = ((#totalheightofart - #turnstaken) #take that value and print the top x lines of the orignial artwork)
-    #PROBABLY get from method below (def artwork)
+    display += art_array
 
-    word_line (#just puts it? If it is completed in game)
+    display += @progress_array.join(" ")
 
     case @game.outcome
     when GAME_WIN
@@ -130,7 +146,7 @@ def play_wordguess
 
     #check to see that we did receive just one letter (no numbers, etc)
     if !guessed_letter.match(/^[A-Z]$/) #regex for one cap letter
-      puts "Hey, that's not one letter!"
+      puts "Hey, that's not a letter!"
       next #skips ahead
     end
 
