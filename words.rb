@@ -9,11 +9,16 @@ puts "Hi! welcome to the Guess words game"
 puts "The fish will be fed only after you win"
 puts "Save the fish!!!"
   puts fish1
+
+  #creat new array of underscores
 (answer.length).times do
     _array.push("_")
-    print "_"
+    print "_ "
   end
 
+print _array
+
+#creat new array of letters
 answer_array = answer.split("")
 
 
@@ -38,6 +43,8 @@ answer_array.each_with_index do |n , i|
       @check = false
     end
   end
+  print _array
+  puts
 
    if @check
      puts "Yay!!! you saved the fish!!!"
