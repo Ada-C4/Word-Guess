@@ -2,40 +2,55 @@
 # updated with no content
 
 # In this class we will contain visual aspects, such as ASCII art
+
+MAX_GUESSES = 1
+
 class Art
 end
 
 # In this class we will contain the visual aspects of the word
 class Word
+  def word_gen
+    # word list is from http://www.desiquintans.com/nounlist
+    # "wordlist.txt" is saved in the same directory as this ruby file
+    words = open("wordlist.txt")
+
+
+    array_of_words = words.readlines
+
+    array_of_words.map! do |word|
+      word.strip
+    end
+
+    rando = array_of_words[rand(0...array_of_words.length)]
+
+    while rando.length < 5 || rando.length > 7
+      rando = array_of_words[rand(0...array_of_words.length)]
+    end
+
+
+    puts rando
+    words.close
+  end
+
 end
 
 # In this class we will control the workings of the game
 class Game
+
 end
 
 # Where the game is run from
 def play_mouse_party
+  print "Give me a letter to guess? "
+  guess = gets.chomp
+
+  puts guess
+
 end
 
-# word list is from http://www.desiquintans.com/nounlist
-# "wordlist.txt" is saved in the same directory as this ruby file
-words = open("wordlist.txt")
+play_mouse_party
 
-
-array_of_words = words.readlines
-
-array_of_words.map! do |word|
-  word.strip
-end
-
-rando = array_of_words[rand(0...array_of_words.length)]
-
-while rando.length < 5 || rando.length > 7
-  rando = array_of_words[rand(0...array_of_words.length)]
-end
-
-puts rando
-words.close
 
 mouse = """
 .--,       .--,
@@ -53,12 +68,13 @@ mouse = """
  """
 puts mouse
 
-cheese = """
-   ____
-  /|o  |
- /o|  o|
-/o_|_o_|
-"""
+cheese_1 = "   ____  "
+cheese_2 = "  /|o  | "
+cheese_3 = " /o|  o| "
+cheese_4 = "/o_|_o_| "
 
-cheeses = [cheese, cheese]
-puts cheese.class
+
+puts cheese_1 * 5
+puts cheese_2 * 5
+puts cheese_3 * 5
+puts cheese_4 * 5
