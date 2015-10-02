@@ -1,3 +1,9 @@
+#possible problem spots-
+#might need return for make letter array
+#does match mean true? (in regex part)
+#in new_guess might need guessed_letter.dup
+#could separate out checking guesses as a method from new_guess
+
 require "colorize"
           __    __    __
          |==|  |==|  |==|
@@ -13,16 +19,39 @@ MAX_TURNS #we're going to try to have this depend on artwork, so it might become
 GAME_WIN = :win
 GAME_LOSE = :lose
 
+WORDS = [
+  "antelope",
+  "potato",
+  "sinking",
+  "tangerine",
+  "juice",
+  "postmaster"
+]
+
 class Game
+
+  attr_reader :guesses, :outcome, :answer_chararray
+
   def initialize
+    #initalize game state
+    @answer_chararray = make_letter_array
+    @guesses = []
+    @outcome = :unknown
   end
 
-  def select_word
-    #select a word from an array of possible words, at random
+
+  #select a word from an array of possible words, at random
+  #turn that word into an array of characters
+  def make_letter_array
+    chosen_word = WORDS.shuffle.pop
+    chosen_word.split("")
   end
 
-  def new_guess
+  def new_guess(guessed_letter)
+    #save copy of guess and add it to an array of guesses
+    @guesses.push(guessed_letter)
   end
+
 
   def find_letter_matches
   end
