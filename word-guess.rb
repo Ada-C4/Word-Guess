@@ -41,39 +41,45 @@ class Board
       @game = game
   end
 
-  mouse = """
-  .--,       .--,
-  ( (  \\.---./ ) )
-  '.__/o   o\\__.'
-     {=  ^  =}
-      >  -  <
-     /       \\
-    //       \\\\
-   //|   .   |\\\\
-   \"'\\       /'\"_.-~^`'-.
-      \\  _  /--'         `
-    ___)( )(___
-   (((__) (__)))
-   """
-  puts mouse
+  def display
+    mouse = """
+    .--,       .--,
+    ( (  \\.---./ ) )
+    '.__/o   o\\__.'
+       {=  ^  =}
+        >  -  <
+       /       \\
+      //       \\\\
+     //|   .   |\\\\
+     \"'\\       /'\"_.-~^`'-.
+        \\  _  /--'         `
+      ___)( )(___
+     (((__) (__)))
+     """
 
-def cheese_print
-  cheese_1 = "   ____  "
-  cheese_2 = "  /|o  | "
-  cheese_3 = " /o|  o| "
-  cheese_4 = "/o_|_o_| "
+    puts mouse
+    cheese_print
+  end
+
+  def cheese_print
+    underscores
+
+    cheese_1 = "   ____  "
+    cheese_2 = "  /|o  | "
+    cheese_3 = " /o|  o| "
+    cheese_4 = "/o_|_o_| "
 
 
-  puts cheese_1 * @guesses
-  puts cheese_2 * @guesses
-  puts cheese_3 * @guesses
-  puts cheese_4 * @guesses
-end
+    puts cheese_1 * @guesses
+    puts cheese_2 * @guesses
+    puts cheese_3 * @guesses
+    puts cheese_4 * @guesses
+  end
 
-def underscores
-  underscore = "_ " * @game.word.length
-  puts rando
-end
+  def underscores
+    underscore = "\t\t\t" + "_ " * @game.word.length
+    puts underscore
+  end
 
 end
 
@@ -82,6 +88,8 @@ end
 def play_mouse_party
   game = Game.new
   board = Board.new(game)
+
+  print board.display
   print "Give me a letter to guess? "
   guess = gets.chomp
   puts guess
