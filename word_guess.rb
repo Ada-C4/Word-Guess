@@ -1,3 +1,5 @@
+require "colorize"
+
 class Game
   attr_accessor :number_of_guesses_left, :game_state, :previous_guesses, :answer
 
@@ -45,6 +47,15 @@ class Game
       end
     end
   end
+
+  def show_results
+    if @number_of_guesses_left > 0
+      puts "You won! Your word was #{@answer}"
+    else
+      puts "You lost :("
+      puts "#{@answer}"
+    end
+  end
 end
 
 class Board
@@ -61,14 +72,14 @@ class Board
     @game.number_of_guesses_left.times do
       print "|"
     end
-    puts ""
+    puts "\n"
   end
 
   def print_board
     @game.game_state.each do |char|
       print char + " "
     end
-    puts ""
+    puts "\n\n"
   end
 end
 
@@ -76,7 +87,13 @@ def is_letters(str)
 str[/[a-zA-Z]+/]  == str
 end
 
+def intro_message
+  puts "Hello! Get ready to play..."
+  puts "WORD GUESS".blue.blink
+end
+
 def play_game
+  intro_message
   puts "What difficulty level would you like? Easy? Medium? Difficult?"
   choice_level = gets.chomp
   while choice_level.downcase != "easy" && choice_level.downcase != "medium" && choice_level.downcase != "difficult"
@@ -87,18 +104,13 @@ def play_game
   board = Board.new(g)
  #  @game_state = ["​_", "_​", "​_", "_​", "_"]
   while g.number_of_guesses_left > 0 && g.game_state.include?("_")
-    board.print_board
     board.print_art
+    board.print_board
     puts "Guess a letter: "
     letter_guess = gets.chomp
     g.check_letters(letter_guess)
   end
-  if g.number_of_guesses_left > 0
-    puts "You won! Your word was #{g.answer}"
-  else
-    puts "You lost :("
-    puts "#{g.answer}"
-  end
+  g.show_results
 end
 
 play_game
