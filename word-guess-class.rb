@@ -16,6 +16,8 @@ attr_reader :answer, :guesses, :scores, :guess_index, :slots,
     welcome_message
     generate_answer
     generate_slots
+    game_play
+    game_end
   end
 
 
@@ -36,10 +38,13 @@ attr_reader :answer, :guesses, :scores, :guess_index, :slots,
     end
   end
 
-  # def play
-  #   welcome_message
-  #
-  # end
+  def game_play
+    # Get user input
+    # Compare input to @answer
+    # if true, replace the slot in the slots array with the letter
+    # if false, change ASCII art
+    # loop until you read max# wrong answers OR @slots = @answers
+  end
 
   def letter_match(guess)
     @answer.each do |l|
@@ -52,6 +57,9 @@ attr_reader :answer, :guesses, :scores, :guess_index, :slots,
     end
   end
 
+  def game_end
+
+  end
 
 end
 
