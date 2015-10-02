@@ -1,9 +1,4 @@
 # This will be our Mouse Party Game. By Jenna and Daphne.
-# updated with no content
-
-# In this class we will contain visual aspects, such as ASCII art
-
-MAX_GUESSES = 6
 
 # In this class we will control the workings of the game
 class Game
@@ -13,7 +8,6 @@ class Game
   def initialize
     @word = word_gen
     @guess_list = [] # the letters that the player has guessed, starts at none
-
   end
 
   def word_gen
@@ -36,11 +30,12 @@ end
 
 
 class Board
-  attr_accessor
+  attr_accessor :strikes, :blanks
 
   def initialize(game)
-      @guesses = 6
+      @strikes = 6
       @game = game
+      @blanks = []
   end
 
   def display
@@ -64,7 +59,6 @@ class Board
   end
 
   def cheese_print
-    underscores
 
     cheese_1 = "   ____  "
     cheese_2 = "  /|o  | "
@@ -72,15 +66,21 @@ class Board
     cheese_4 = "/o_|_o_| "
 
 
-    puts cheese_1 * @guesses
-    puts cheese_2 * @guesses
-    puts cheese_3 * @guesses
-    puts cheese_4 * @guesses
+    puts cheese_1 * @strikes
+    puts cheese_2 * @strikes
+    puts cheese_3 * @strikes
+    puts cheese_4 * @strikes
+    puts ""
+    underscores
   end
 
   def underscores
-    underscore = "\t\t\t" + "_ " * @game.word.length
-    puts underscore
+    @game.word.length.times do
+      @blanks.push("_ ")
+    end
+
+    puts @blanks.join(" ")
+    puts ""
   end
 
 end
@@ -90,13 +90,18 @@ end
 def play_mouse_party
   game = Game.new
   board = Board.new(game)
-
   print board.display
-  print "Give me a letter to guess? "
-  guess = gets.chomp
-  game.guess_list.push(guess)
+  puts "The length of the random word is #{game.word.length}"
+  puts "The word was #{game.word}"
 
-  puts game.guess_list
+# while board.strikes > 0
+#     print "Give me a letter to guess? "
+#     guess = gets.chomp
+#     game.guess_list.push(guess)
+#     puts "You've guessed the folloing letters: #{game.guess_list}"
+#     # update number of cheese to print
+#     print board.display
 end
+
 
 play_mouse_party
