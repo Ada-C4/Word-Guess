@@ -1,5 +1,5 @@
 class Game
-  words = ["cat"]
+  words = ["cat", "dog", "tree", "apple", "bird"]
   _array =[]
   #fish_images = [fish1, fish2, fish3, fish4, fish5, fish6]
   answer = words[rand(words.length-1)]
@@ -9,31 +9,30 @@ puts "Hi! welcome to the Guess words game"
 puts "The fish will be fed only after you win"
 puts "Save the fish!!!"
   puts fish1
-
-  #creat new array of underscores
 (answer.length).times do
     _array.push("_")
     print "_ "
   end
 
-print _array
-
-#creat new array of letters
 answer_array = answer.split("")
 
 
 
-count = 1
+count = 0
 puts
 puts "Guess a letter"
 @guess = gets.chomp
 
-while count < 6
-@check = true #  if check is true -> you won (no underscores)
+
+
+
+#while count < 7
+#@check = true #  if check is true -> you won (no underscores)
 # loop that edit the _array
 
 answer_array.each_with_index do |n , i|
-    if @guess === n
+  print n, i
+    if @guess === answer_array[i]
       _array[i] = @guess
     end
 
@@ -43,11 +42,6 @@ answer_array.each_with_index do |n , i|
       @check = false
     end
   end
-  print _array
-  puts
-  print "Guess another letter"
-  puts
-  @guess = gets.chomp
 
    if @check
      puts "Yay!!! you saved the fish!!!"
@@ -68,4 +62,3 @@ end
 end
 
 puts answer_array[0]
-end
