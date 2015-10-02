@@ -1,5 +1,5 @@
 # This will be our Mouse Party Game. By Jenna and Daphne.
-
+require "colorize"
 # In this class we will control the workings of the game
 class Game
 
@@ -59,7 +59,7 @@ class Board
      (((__) (__)))
      """
 
-    puts mouse
+    puts mouse.colorize(:light_black)
 
     cheese_1 = "   ____  "
     cheese_2 = "  /|o  | "
