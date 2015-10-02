@@ -2,17 +2,16 @@
 # Game Constants
 MAX_WRONG = 8
 
-GAME_WIN = :win
-GAME_LOSE = :lose
-
-WORDS = %w(flower pancake caterpillar avocado dragon sushi kitten monkey football crazy mango pineapple developer engineer waffle toast)
+WORDS = %w(flower pancake caterpillar avocado dragon sushi kitten monkey football crazy mango pineapple developer engineer waffle toast penguin)
 
 class Game
   def initialize
     @answer = generate_answer
     @answer_array = generate_answer_array
+    @guess_array = []
     @wrong_guesses = []
     @correct_guesses = []
+    @turn_array = []
   end
 
   def generate_answer
@@ -30,11 +29,15 @@ class Game
     @answer_array.each do |letter|
       if letter == guess || @correct_guesses.include?(letter)
         print letter
+        @guess_array.push(letter)
       else
         print "_"
       end
     end
     puts "\nWrong guesses:\n#{@wrong_guesses}"
+
+   @turn_array = @guess_array
+   @guess_array = []
   end
 
   def check_guess(guess)
@@ -51,6 +54,32 @@ class Game
   def new_guess(guess)
   end
 
+  def play_game
+    until game_lost? || game_won?
+      guess = gets.chomp.upcase
+
+      check_guess(guess)
+      print_board(guess)
+
+      puts "\nYour guess was #{guess}."
+
+    end
+    if game_lost?
+      puts "GAME OVER: You lost :("
+    else
+      puts "GAME OVER: YOU WON! :)"
+    end
+  end
+
+  def game_lost?
+    MAX_WRONG == @wrong_guesses.length
+  end
+
+  def game_won?
+    @turn_array == @answer_array
+  end
+
+
 end
 
 
@@ -64,9 +93,9 @@ ZZZZZZZZZZZZZZZZZZZZZZ$ZI
 O$ZZZZZZZZZZZZZZZZZZZZZ=
 ZZZZZZZZZZZZZZZZZ$$Z$O
 ZZZZZZZZZZZZZZZZZZOZ
-ZZZZZZZZZZZZZZZZOI       NMMM       MNMM       MMNM      MMMM      MMMM      MMMM       MMM       NNM
-ZZZZZZZZZZZZZZZ?        MMNMMM     MMNMNN     MMMMMM    NMMMMM    MMMMMM    MMMMMM     MMNMM,    NMMMM
-ZZZZZZZZZZZZZZZOOI       MMMM       MMNM       MNMN      MNNM      MNMM      NMMM       MMM       MNM
+ZZZZZZZZZZZZZZZZOI     NMMM       MNMM       MMNM      MMMM      MMMM      MMMM       MMM       NNM
+ZZZZZZZZZZZZZZZ?      MMNMMM     MMNMNN     MMMMMM    NMMMMM    MMMMMM    MMMMMM     MMNMM     NMMMM
+ZZZZZZZZZZZZZZZOOI     MMMM       MMNM       MNMN      MNNM      MNMM      NMMM       MMM       MNM
 ZZZZZZZZZZZZZZZZZ$Z:
 ZZZZZZZZZZZZZZZZZZZZZO
 ZZZZZZZZZZZZZZZZZZZZZ$Z
@@ -86,11 +115,4 @@ puts "Welcome to Word Guess!"
 puts "Enter letters to guess the secret word before pacman eats everything!"
 puts "What is your guess?"
 
-while true
-guess = gets.chomp.upcase
-
-a.check_guess(guess)
-a.print_board(guess)
-
-puts "\nYour guess was #{guess}."
-end
+a.play_game
