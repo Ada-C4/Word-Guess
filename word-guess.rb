@@ -84,10 +84,10 @@ class Board
     cheese_4 = "/o_|_o_| "
 
 
-    puts cheese_1 * @game.strikes_left
-    puts cheese_2 * @game.strikes_left
-    puts cheese_3 * @game.strikes_left
-    puts cheese_4 * @game.strikes_left
+    puts cheese_1.colorize(:yellow) * @game.strikes_left
+    puts cheese_2.colorize(:yellow) * @game.strikes_left
+    puts cheese_3.colorize(:yellow) * @game.strikes_left
+    puts cheese_4.colorize(:yellow) * @game.strikes_left
     puts ""
 
     puts @blanks.join(" ")
