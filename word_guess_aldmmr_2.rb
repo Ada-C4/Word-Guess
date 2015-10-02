@@ -7,8 +7,9 @@
 #initializing @progress_array, variables found ok?
 #progress array in right place
 #defining art_array - where to put it?
+#putting make_letter_array in initialize might mess it up
 
-require "colorize"
+# require "colorize"
 
 ARTWORK ="""
           __    __    __
@@ -37,13 +38,16 @@ WORDS = [
 
 class Game
 
-  attr_reader :guesses, :outcome, :answer_chararray, :progress_array
+  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art_array, :reassembled_art
 
   def initialize
     #initalize game state
+    make_letter_array
     @answer_chararray = make_letter_array
     @guesses = []
     @progress_array = ("_" * @answer_chararray.length).split("")
+    @art_array = []
+    @reassembled_art = ARTWORK
     @outcome = :unknown
   end
 
@@ -55,26 +59,29 @@ class Game
     chosen_word.split("")
   end
 
-    art_array = ARTWORK.lines
-  def new_guess(guessed_letter)
-    #save copy of guess and add it to an array of guesses
-    @guesses.push(guessed_letter)
-    #RIGHT NOW including right and wrong guesses here!
+    @art_array = ARTWORK.lines
+    def new_guess(guessed_letter)
+      #save copy of guess and add it to an array of guesses
+      @guesses.push(guessed_letter)
+      #RIGHT NOW including right and wrong guesses here!
 
-    #compare the two arrays (answer_chararray and guessed_letter)
-    i = 0
-    @answer_chararray.each do |char|
-      if guessed_letter == char
-        #replace the "_" in @progress_array with the letter
-        @progress_array[i].replace(char)
-        i += 1
-      else
-        wrong_guess
+      #compare the two arrays (answer_chararray and guessed_letter)
+      i = 0
+      @answer_chararray.each do |char|
+        if guessed_letter == char
+          #replace the "_" in @progress_array with the letter
+          @progress_array[i].replace(char)
+          i += 1
+        else
+          wrong_guess
+        end
       end
+    end
+
 
   def wrong_guess(guessed_letter)
-    art_array = art_array.delete_at(art_array.length - 1)
-
+    @art_array = @art_array.delete_at(@art_array.length - 1)
+    reassemble_art
     #last element in the array is the one we want to KEEP unchanged
     #remove an element that is second to last
     #print that string
@@ -83,25 +90,34 @@ class Game
     #add wrong guess to an wrong_guess_array
     #give a message
     #pass progress_array to the Board
+  end
+
+  def reassemble_art
+    @art_array.each do |art_line|
+    @reassembled_art = puts art_line
+    end
+  end
 
   def finished?
-
-
+    @outcome == GAME_WIN || @outcome == GAME_LOSE
+  end
+end
 
 class Board
 
-  def initialize
+  def initialize(game)
     @game = game
   end
 
   def new_display
-    display = ""
+    # display = ""
     # show the artwork, in whatever state it now is in (depends on height of artwork, which determines max turns)
     # show the word_line in whatever status it is in (all blank, or filled or whatever)
     # show status messages about game outcome (win, lose, guess again)
 
     # first show artwork
-    display += art_array
+
+    display = @reassembled_art
 
     display += @progress_array.join(" ")
 
@@ -123,17 +139,15 @@ class Board
     #   # board will get access to that element from select_word in game
     # end
     #
-    def artwork
-      #MAKES SENSE MAYBE to build artwork here, and then concat it above into the display
-    end
-  end
+
+end
 
 
 
 def play_wordguess
 #this is where we actually play the game
   game = Game.new
-  board = Board.new
+  board = Board.new(game)
 
   print board.new_display
 
