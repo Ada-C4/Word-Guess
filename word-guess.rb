@@ -3,47 +3,16 @@
 
 # In this class we will contain visual aspects, such as ASCII art
 
-MAX_GUESSES = 1
-
-class Art
-  mouse = """
-  .--,       .--,
-  ( (  \\.---./ ) )
-  '.__/o   o\\__.'
-     {=  ^  =}
-      >  -  <
-     /       \\
-    //       \\\\
-   //|   .   |\\\\
-   \"'\\       /'\"_.-~^`'-.
-      \\  _  /--'         `
-    ___)( )(___
-   (((__) (__)))
-   """
-  puts mouse
-
-def cheese_print(number_guesses)
-  cheese_1 = "   ____  "
-  cheese_2 = "  /|o  | "
-  cheese_3 = " /o|  o| "
-  cheese_4 = "/o_|_o_| "
-
-
-  puts cheese_1 * number_guesses
-  puts cheese_2 * number_guesses
-  puts cheese_3 * number_guesses
-  puts cheese_4 * number_guesses
-end
-
-def underscores
-  underscore = "_ " * rando.length
-
-end
-
-end
+MAX_GUESSES = 6
 
 # In this class we will control the workings of the game
 class Game
+
+  def initialize
+    @word = word_gen
+    @guesses = [] # the letters that the player has guessed, starts at none
+
+  end
 
   def word_gen
     # word list is from http://www.desiquintans.com/nounlist
@@ -62,6 +31,48 @@ class Game
   end
 
 end
+
+
+class Board
+  def initialize
+      @guesses = 6
+  end
+  mouse = """
+  .--,       .--,
+  ( (  \\.---./ ) )
+  '.__/o   o\\__.'
+     {=  ^  =}
+      >  -  <
+     /       \\
+    //       \\\\
+   //|   .   |\\\\
+   \"'\\       /'\"_.-~^`'-.
+      \\  _  /--'         `
+    ___)( )(___
+   (((__) (__)))
+   """
+  puts mouse
+
+def cheese_print
+  cheese_1 = "   ____  "
+  cheese_2 = "  /|o  | "
+  cheese_3 = " /o|  o| "
+  cheese_4 = "/o_|_o_| "
+
+
+  puts cheese_1 * @guesses
+  puts cheese_2 * @guesses
+  puts cheese_3 * @guesses
+  puts cheese_4 * @guesses
+end
+
+def underscores(rando)
+  underscore = "_ " * rando.length
+  puts rando
+end
+
+end
+
 
 # Where the game is run from
 def play_mouse_party
