@@ -20,9 +20,9 @@ PLAYING = :playing
 class Game
   attr_reader :secret_word, :guesses, :letters_matched, :errors
 
-  def initialize
+  def initialize(word_length)
     # Create random word using random word generator
-    @secret_word = RandomWordGenerator.of_length(8).downcase
+    @secret_word = RandomWordGenerator.of_length(word_length).downcase
     # Array of the guesses so far
     @guesses = []
     # Array of which letters have been correctly guessed in word
@@ -212,8 +212,24 @@ end
 
 # This method should set up the game
 def play_word_guess
+  level = 'foo'
+  while !['easy', 'medium', 'hard'].include?(level)
+    puts "What level would you like to play? [EASY, MEDIUM, HARD]".colorize(:green)
+    level = gets.chomp.downcase
+    if !['easy', 'medium', 'hard'].include?(level)
+      puts "Invalid level type."
+    end
+  end
+  case level
+  when "easy"
+    word_length = 12
+  when "medium"
+    word_length = 9
+  when "hard"
+    word_length = 6
+  end
   print %x{clear} # Clears the terminal screen
-  game = Game.new()
+  game = Game.new(word_length)
   gameboard = Gameboard.new(game)
   outcome = PLAYING
   while outcome != GAME_WIN && outcome != GAME_LOSE
@@ -260,5 +276,4 @@ print %x{clear} # Clears the terminal screen
 puts "Welcome to the Birthday Cake Word Guess Game!".colorize(:red)
 puts "For each incorrect guess, you lose a candle.".colorize(:red)
 puts "When you run out of candles, your birthday is ruined.".colorize(:red)
-gets
 play_word_guess
