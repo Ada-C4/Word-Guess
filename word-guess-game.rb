@@ -50,6 +50,15 @@ class Game
     end
   end
 
+  def check_guess(guess)
+    if guess == @secret_word
+      return GAME_WIN
+    else
+      @errors += 1
+      return PLAYING
+    end
+  end
+
   def find_outcome
     if @errors == MAX_ERRORS
       return GAME_LOSE
@@ -205,7 +214,6 @@ class Gameboard
       print letter + " "
     end
     puts
-    puts
   end
 end
 
@@ -236,27 +244,35 @@ def play_word_guess
     print %x{clear} # Clears the terminal screen
     gameboard.print_gameboard
     # Get a new guess
-    print "Enter your guess: ".colorize(:blue)
+    puts "Enter a letter or type \"guess\" to guess the full word.".colorize(:blue)
+    print "Your guess: ".colorize(:blue)
     guess = gets.chomp.downcase
     # Validate guess as input
     if game.guesses.include?(guess)
       puts "You have already entered that guess!"
       gets
+    # Allow user to guess the full word
+    elsif guess == "guess"
+      print "Type in your guess for the full word: ".colorize(:blue)
+      guess = gets.downcase.strip
+      outcome = game.check_guess(guess)
+    # Check if guess is a letter from a to z
     elsif !('a'..'z').include?(guess)
       puts "Invalid guess. Guesses must be a letter from a to z."
       gets
     else
       game.find_matches(guess)
       outcome = game.find_outcome
-      if outcome == GAME_LOSE
-        print %x{clear} # Clears the terminal screen
-        puts gameboard.cakes[6]
-        puts
-        puts "Sorry, you ran out of turns.".colorize(:red)
-        puts "The secret word was ".colorize(:red) + "#{game.secret_word.upcase}".colorize(:blue)
-      elsif outcome == GAME_WIN
-        puts "You correctly guessed the secret word: #{game.secret_word.upcase}!".colorize(:blue)
-      end
+    end
+    # Check outcome of the round => GAME_LOSE, GAME_WIN, or PLAYING
+    if outcome == GAME_LOSE
+      print %x{clear} # Clears the terminal screen
+      puts gameboard.cakes[6]
+      puts
+      puts "Sorry, you ran out of turns.".colorize(:red)
+      puts "The secret word was ".colorize(:red) + "#{game.secret_word.upcase}".colorize(:blue)
+    elsif outcome == GAME_WIN
+      puts "You correctly guessed the secret word: #{game.secret_word.upcase}!".colorize(:blue)
     end
   end
 
