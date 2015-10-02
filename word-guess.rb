@@ -26,6 +26,23 @@ class Game
     return rando.upcase
   end
 
+  def difficulty
+    puts "What difficulty would you like in the battle for the cheese against Monsieur Le Mouse?"
+    puts "1. Easy"
+    puts "2. Medium"
+    puts "3. Hard\n\n"
+
+    print " > "
+
+    difficulty_level = gets.chomp
+
+    case difficulty_level.downcase
+      when '1', '1.', 'easy' then @word.length + 5
+      when '2', '2.', 'medium' then @word.length + 2
+      when '3', '3.', 'hard' then @word.length
+    end
+  end
+
 end
 
 
