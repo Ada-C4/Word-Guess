@@ -2,6 +2,9 @@
 require 'random_word_generator'
 # Gem dependency: gem install random-word-generator
 # from https://rubygems.org/gems/random-word-generator/versions/0.0.1
+require 'colorize'
+# Gem dependency: gem install colorize
+# from https://github.com/fazibear/colorize
 
 # Define constant variables
 MAX_ERRORS = 6
@@ -66,6 +69,7 @@ class Gameboard
   def initialize(game)
     @game = game
     # Array of birthday cake ascii art
+    # Original cake from http://www.myhairyass.com/ASCII/Art/?ID=20
     @cakes = ["""
                     0   0
                     |   |
@@ -187,56 +191,63 @@ class Gameboard
   end
 
   def print_gameboard
-    # Print how many errors are left in the form of Xes
+    # Print how many errors are left in the form of birthday cake ascii art
     puts @cakes[@game.errors]
-#    print " x " * (MAX_ERRORS - @game.errors)
     puts
     # Print out the matched letters
+    print "Secret word: ".colorize(:blue)
     @game.letters_matched.each do |letter|
       print letter + " "
     end
     puts
+    puts
     # Print out the guesses so far
-    print "Your guesses so far: "
+    print "Guesses so far: ".colorize(:blue)
     @game.guesses.each do |letter|
       print letter + " "
     end
     puts
-
+    puts
   end
 end
 
 
 # This method should set up the game
 def play_word_guess
+  def clear_screen
+    print %x{clear}
+  end
   game = Game.new()
   gameboard = Gameboard.new(game)
   outcome = PLAYING
-
   while outcome != GAME_WIN && outcome != GAME_LOSE
+    clear_screen
     gameboard.print_gameboard
     # Get a new guess
-    print "Enter your letter guess: "
+    print "Enter your guess: ".colorize(:blue)
     guess = gets.chomp.downcase
     # Validate guess as input
     if game.guesses.include?(guess)
       puts "You have already entered that guess!"
+      gets
     elsif !('a'..'z').include?(guess)
       puts "Invalid guess. Guesses must be a letter from a to z."
+      gets
     else
       game.find_matches(guess)
       outcome = game.find_outcome
       if outcome == GAME_LOSE
+        clear_screen
         puts gameboard.cakes[6]
-        puts "Sorry, you ran out of turns."
-        puts "The secret word was #{game.secret_word}"
+        puts "Sorry, you ran out of turns.".colorize(:red)
+        puts "The secret word was #{game.secret_word}".colorize(:blue)
       elsif outcome == GAME_WIN
-        puts "You correctly guessed the secret word: #{game.secret_word.upcase}!"
+        puts "You correctly guessed the secret word: #{game.secret_word.upcase}!".colorize(:blue)
       end
     end
   end
 
-  puts "Do you want to play again?"
+  puts "Do you want to play again?".colorize(:green)
   response = gets.chomp.upcase
   case response
   when "1", "Y", "YES"
@@ -248,4 +259,9 @@ def play_word_guess
 end
 
 # Start the game!
+clear_screen
+puts "Welcome to the Birthday Cake Word Guess Game!".colorize(:red)
+puts "For each incorrect guess, you lose a candle.".colorize(:red)
+puts "When you run out of candles, your birthday is ruined.".colorize(:red)
+gets
 play_word_guess
