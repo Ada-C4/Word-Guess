@@ -1,52 +1,96 @@
-possible_words = []
+# Setting global variables
 
-# generate answer
-# pull answer from array of possible_answers
+class Game
+attr_reader :answer, :guesses, :guess_index, :slots
 
-game_word = possible_answers.sample
+  def initialize
+    @answer = [] # Will pull a new word each game
+    @guesses = [] # No guesses yet in the array
+    # @display = Board.new
+    @slots = []
+    @guess_index = 0
+    @max_wrong = 0
+  end
+
+  def play
+    welcome_message
+    generate_answer
+    generate_slots
+    game_play
+    game_end
+  end
 
 
-def split_word
-  #create new array with one letter per slot
+  def welcome_message
+    puts "Welcome. So you want to play a game? I'm going to choose a word, and you guess the word one letter at a time."
+    puts "RULES"
+  end
+
+  def generate_answer
+    @possible_words = ["beef", "onion", "cupcake", "taco", "boot", "shoe", "dog", "cat", "fireball", "mandrake", "enrage", "visceral", "vibrate", "ennervate"]
+    @answer_whole = @possible_words.sample
+    @answer = @answer_whole.split("")
+  end
+
+  def generate_slots
+    @answer.each do |x|
+      x = "_"
+      @slots.push(x)
+    end
+  end
+
+  def game_play
+    # loop until game end
+    until @max_wrong == 10 || @slots == @answer
+      # print board
+      print %x{clear} # Clears the terminal screen
+      print @slots
+      puts
+      puts "These are the letters you've already guessed: #{@guesses.sort}"
+      puts "Pick a new letter: "
+      input = gets.chomp.downcase
+      @guesses.push(input)
+      letter_match(input)
+      end
+  end
+
+
+  def letter_match(guess)
+    answer_copy = Array.new(@answer)
+    num_match = 0
+    while answer_copy.include?(guess)
+      @guess_index = answer_copy.find_index(guess)
+      @slots[@guess_index + num_match] = guess
+      answer_copy.delete_at(@guess_index)
+      num_match += 1
+    end
+    # if @guesses.include?(guess)
+    #   puts "You already guessed that letter, silly."
+    if @slots.include?(guess) == false
+      puts "Wrong!"
+      @max_wrong += 1
+      puts "#{@max_wrong} wrong guesses so far."
+      #moving ASCII art
+    end
+  end
+
+  def game_end
+    if @slots == @answer
+      puts "The word was #{@answer_whole}!"
+      puts "YOU WIN! GOLD STAR FOR YOU!"
+    elsif @max_wrong == 10
+      puts "YOU SUCK. YOU KILLED THE MOUSE."
+      puts "By the way, the word was #{@answer_whole}"
+    end
+  end
+
 end
 
-# print ascii art
-
-
-# print start menu
-puts "Let's play a game! I'm going to choose a word, and you have to guess a letter each turn."
-
-
-past_guesses = []
-# Get user input and put into user array
-guess = gets.chomp
-# Push user choice into array for past choices
-past_guesses.push(user_choice)
-
-if guess == game_word.include?
-  # switch space for letter
-  # puts something to tell them
-elsif guess != game_word.include?
-  # change ASCII art
-  # tell them something
-end
-
-# display past choices
-puts "You've already chosen these letters: #{past_choices}"
-
+# class Board
+# attr_reader
 #
-# new display
+#   def initalize
+#     @board =
+#   end
 #
-# loop until win or lose
-GAME_WIN
-
-if score.all? { |s| s == MATCH_EXACT }
-  # Player wins if they have an exact match for every guess
-  @outcome = GAME_WIN
-elsif @guesses.length == MAX_TURNS
-  # Player loses if they reach the maximum number of turns
-  @outcome = GAME_LOSE
-end
-end
-#
-# decide number of wrong guesses
+# end
