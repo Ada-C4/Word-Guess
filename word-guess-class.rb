@@ -13,7 +13,15 @@ attr_reader :answer, :guesses, :scores, :guess_index, :slots,
   end
 
   def play
+    welcome_message
     generate_answer
+    generate_slots
+  end
+
+
+  def welcome_message
+    puts "Welcome. So you want to play a game? I'm going to choose a word, and you guess the word one letter at a time."
+    puts "RULES"
   end
 
   def generate_answer
@@ -22,8 +30,9 @@ attr_reader :answer, :guesses, :scores, :guess_index, :slots,
   end
 
   def generate_slots
-    (@answer.length).times do
-    @slots.push("_")
+    @answer.each do |x|
+      x = "_"
+    @slots.push(x)
     end
   end
 
@@ -31,11 +40,6 @@ attr_reader :answer, :guesses, :scores, :guess_index, :slots,
   #   welcome_message
   #
   # end
-
-  def welcome_message
-    puts "WELCOME"
-    puts "RULES"
-  end
 
   def letter_match(guess)
     @answer.each do |l|
