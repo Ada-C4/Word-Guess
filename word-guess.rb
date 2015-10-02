@@ -3,11 +3,12 @@ require "colorize"
 # In this class we will control the workings of the game
 class Game
 
-  attr_accessor :word, :guess_list
+  attr_accessor :word, :guess_list, :strikes_left
 
   def initialize
     @word = word_gen
     @guess_list = [] # the letters that the player has guessed, starts at none
+    @strikes_left = difficulty
   end
 
   def word_gen
@@ -47,10 +48,9 @@ end
 
 
 class Board
-  attr_accessor :strikes_left, :blanks
+  attr_accessor :blanks
 
   def initialize(game)
-      @strikes_left = game.word.length + 1
       @game = game
       @blanks = []
 
@@ -84,10 +84,10 @@ class Board
     cheese_4 = "/o_|_o_| "
 
 
-    puts cheese_1 * @strikes_left
-    puts cheese_2 * @strikes_left
-    puts cheese_3 * @strikes_left
-    puts cheese_4 * @strikes_left
+    puts cheese_1 * @game.strikes_left
+    puts cheese_2 * @game.strikes_left
+    puts cheese_3 * @game.strikes_left
+    puts cheese_4 * @game.strikes_left
     puts ""
 
     puts @blanks.join(" ")
@@ -106,7 +106,7 @@ def play_mouse_party
 
   word_array = game.word.split("")
 
-  while board.strikes_left > 0
+  while game.strikes_left > 0
     if !board.blanks.include?("_ ")
       puts "You win! 😻"
       exit
@@ -123,7 +123,7 @@ def play_mouse_party
         end
       end
     else
-        board.strikes_left -= 1
+        game.strikes_left -= 1
     end
 
     board.display
