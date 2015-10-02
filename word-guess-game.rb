@@ -50,6 +50,7 @@ class Game
     end
   end
 
+  # When the user tries to guess the entire word, this method checks the guess
   def check_guess(guess)
     if guess == @secret_word
       return GAME_WIN
@@ -59,6 +60,7 @@ class Game
     end
   end
 
+  # At the end of each turn, this method checks whether there is win/loss
   def find_outcome
     if @errors == MAX_ERRORS
       return GAME_LOSE
@@ -217,10 +219,10 @@ class Gameboard
   end
 end
 
-
-# This method should set up the game
+# This method sets up the game
 def play_word_guess
   level = 'foo'
+  # User chooses the level with input validation
   while !['easy', 'medium', 'hard'].include?(level)
     puts "What level would you like to play? [EASY, MEDIUM, HARD]".colorize(:green)
     level = gets.chomp.downcase
@@ -228,6 +230,7 @@ def play_word_guess
       puts "Invalid level type."
     end
   end
+  # Length of the secret word depends on the level chosen
   case level
   when "easy"
     word_length = 12
@@ -261,6 +264,7 @@ def play_word_guess
       puts "Invalid guess. Guesses must be a letter from a to z."
       gets
     else
+    # In the case of a valid input: check matches, report the win/loss outcome
       game.find_matches(guess)
       outcome = game.find_outcome
     end
