@@ -1,4 +1,4 @@
-
+require "./pacman"
 # Game Constants
 MAX_WRONG = 8
 
@@ -49,12 +49,16 @@ class Game
   end
 
   def image
+    if wrong_guesses.length == 0
+      puts pacman
+    end
   end
 
   def new_guess(guess)
   end
 
   def play_game
+    puts PACMAN8
     until game_lost? || game_won?
       guess = gets.chomp.upcase
 
@@ -107,8 +111,6 @@ O$ZZZZZZZZZZZZZZZZ$7
     ?7ZZZZZ$
 
 PACMAN
-
-puts pacman
 
 a = Game.new
 puts "Welcome to Word Guess!"
