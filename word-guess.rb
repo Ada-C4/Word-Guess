@@ -23,7 +23,7 @@ class Game
       rando = array_of_words[rand(0...array_of_words.length)]
     end
     words.close
-    return rando
+    return rando.upcase
   end
 
 end
@@ -33,7 +33,7 @@ class Board
   attr_accessor :strikes_left, :blanks
 
   def initialize(game)
-      @strikes_left = 10
+      @strikes_left = game.word.length + 1
       @game = game
       @blanks = []
 
@@ -96,7 +96,7 @@ def play_mouse_party
     end
 
     print "Give me a letter to guess? "
-    guess = gets.chomp
+    guess = gets.chomp.upcase
     game.guess_list.push(guess)
 
     if word_array.include?(guess)
@@ -110,7 +110,7 @@ def play_mouse_party
     end
 
     board.display
-#    puts board.blanks.join(" ") + "\n\n"
+    puts "You've already guessed: #{game.guess_list.join(", ")}\n\n"
   end
 
   puts "You lose 🙀 "
