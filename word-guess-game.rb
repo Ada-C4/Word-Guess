@@ -97,14 +97,20 @@ def play_word_guess
     # Get a new guess
     print "Enter your letter guess: "
     guess = gets.chomp.downcase
-    puts "The guess is #{guess}"
-    game.find_matches(guess)
-    outcome = game.find_outcome
-    if outcome == GAME_LOSE
-      puts "Sorry, you ran out of turns."
-      puts "The secret word was #{game.secret_word}"
-    elsif outcome == GAME_WIN
-      puts "You correctly guessed the secret word!"
+    # Validate guess as input
+    if game.guesses.include?(guess)
+      puts "You have already entered that guess!"
+    elsif !('a'..'z').include?(guess)
+      puts "Invalid guess. Guesses must be a letter from a to z."
+    else
+      game.find_matches(guess)
+      outcome = game.find_outcome
+      if outcome == GAME_LOSE
+        puts "Sorry, you ran out of turns."
+        puts "The secret word was #{game.secret_word}"
+      elsif outcome == GAME_WIN
+        puts "You correctly guessed the secret word: #{game.secret_word.upcase}!"
+      end
     end
   end
 
