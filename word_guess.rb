@@ -30,7 +30,15 @@ class Game
       puts "That's not a letter! Try again: "
       letter_guess = gets.chomp
     end
-    if @previous_guesses.include?(letter_guess)
+    if letter_guess.length == @answer.length
+      if letter_guess == @answer
+        show_results
+        exit
+      else
+        puts "NOT IT!"
+        @number_of_guesses_left -= 1
+      end
+    elsif @previous_guesses.include?(letter_guess)
       puts "This letter has already been guessed"
     else
       @previous_guesses.push(letter_guess)
@@ -50,10 +58,16 @@ class Game
 
   def show_results
     if @number_of_guesses_left > 0
-      puts "You won! Your word was #{@answer}"
+      puts "You won! Your word was #{@answer}.".blue
+      print """
+  ／＼
+ ∠＿__ゝ　
+)|’ー’|(
+||||||||
+    """.blue.blink
     else
       puts "You lost :("
-      puts "#{@answer}"
+      puts "#{@answer} was the right answer."
     end
   end
 end
@@ -61,16 +75,18 @@ end
 class Board
   def initialize(game)
     @game = game
+    @colors = [:red, :green, :magenta, :cyan, :light_red, :yellow, :light_blue, :light_green, :light_cyan, :light_magenta]
   end
 
   def print_art
+    rando_color = @colors[rand(@colors.length)]
     print """
   ／＼
  ∠＿__ゝ　
 )|’ー’|(
-"""
+""".colorize(rando_color)
     @game.number_of_guesses_left.times do
-      print "|"
+      print "|".colorize(rando_color)
     end
     puts "\n"
   end
@@ -79,12 +95,13 @@ class Board
     @game.game_state.each do |char|
       print char + " "
     end
+    puts "\nAlready guessed: #{@game.previous_guesses.sort.join(", ")}"
     puts "\n\n"
   end
 end
 
 def is_letters(str)
-str[/[a-zA-Z]+/]  == str
+  str[/[a-zA-Z]+/]  == str
 end
 
 def intro_message
@@ -97,7 +114,7 @@ def play_game
   puts "What difficulty level would you like? Easy? Medium? Difficult?"
   choice_level = gets.chomp
   while choice_level.downcase != "easy" && choice_level.downcase != "medium" && choice_level.downcase != "difficult"
-    puts "I didn't get that. Plese choose easy, medium, or difficult!"
+    puts "I didn't get that. Plese choose Easy, Medium, or Difficult!"
     choice_level = gets.chomp
   end
   g = Game.new(choice_level)
@@ -106,7 +123,7 @@ def play_game
   while g.number_of_guesses_left > 0 && g.game_state.include?("_")
     board.print_art
     board.print_board
-    puts "Guess a letter: "
+    puts "Guess a letter or guess the entire word: "
     letter_guess = gets.chomp
     g.check_letters(letter_guess)
   end
