@@ -56,7 +56,7 @@ class Game
       return GAME_WIN
     else
       @errors += 1
-      return PLAYING
+      return find_outcome
     end
   end
 
