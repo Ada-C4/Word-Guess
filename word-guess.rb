@@ -30,12 +30,20 @@ end
 
 
 class Board
-  attr_accessor :strikes, :blanks
+  attr_accessor :strikes_left, :blanks
 
   def initialize(game)
-      @strikes = 6
+      @strikes_left = 6
       @game = game
-      @blanks = underscores
+      @blanks = []
+      @blank_array = false
+
+      @game.word.length.times do
+        @blanks.push("_ ")
+      end
+
+      puts @blanks.join(" ")
+      puts ""
   end
 
   def display
@@ -66,25 +74,13 @@ class Board
     cheese_4 = "/o_|_o_| "
 
 
-    puts cheese_1 * @strikes
-    puts cheese_2 * @strikes
-    puts cheese_3 * @strikes
-    puts cheese_4 * @strikes
+    puts cheese_1 * @strikes_left
+    puts cheese_2 * @strikes_left
+    puts cheese_3 * @strikes_left
+    puts cheese_4 * @strikes_left
     puts ""
     #underscores   # this might be an issue
   end
-
-  def underscores
-    @blanks = []
-    @game.word.length.times do
-      @blanks.push("_ ")
-    end
-
-    puts @blanks.join(" ")
-    puts ""
-    # return @blanks  # including this makes it accessible as an array
-  end
-
 end
 
 
@@ -93,7 +89,6 @@ def play_mouse_party
   game = Game.new
   board = Board.new(game)
   print board.display
-  puts board.underscores
   puts "The length of the random word is #{game.word.length}"
   puts "The word is #{game.word}"
 
@@ -102,19 +97,17 @@ def play_mouse_party
   game.guess_list.push(guess)
 
   word_array = game.word.split("")
-  count = 0
-  word_array.each do |letter|
-    if letter == guess
+
+  word_array.length.times do |i|
+    if word_array[i] == guess
       puts "yay!"
+      board.blanks[i] = guess
       # here change the corresponding index in @blanks array to guess
-      count += 1
     else
       puts "nope."
-      count += 1
     end
   end
 
-  puts board.underscores
 
 # while board.strikes > 0
 #     print "Give me a letter to guess? "
