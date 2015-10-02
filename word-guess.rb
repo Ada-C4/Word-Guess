@@ -5,7 +5,7 @@ MAX_WRONG = 8
 GAME_WIN = :win
 GAME_LOSE = :lose
 
-WORDS = %w(flower pancake caterpillar avocado dragon sushi)
+WORDS = %w(flower pancake caterpillar avocado dragon sushi kitten monkey football crazy mango pineapple developer engineer waffle toast)
 
 class Game
   def initialize
@@ -26,12 +26,22 @@ class Game
   end
 
   def print_board(guess)
+    puts "Word = "
     @answer_array.each do |letter|
-      if guess == letter
+      if letter == guess || @correct_guesses.include?(letter)
         print letter
       else
         print "_"
       end
+    end
+    puts "\nWrong guesses:\n#{@wrong_guesses}"
+  end
+
+  def check_guess(guess)
+    if !@answer.include?(guess)
+      @wrong_guesses.push(guess)
+    else
+      @correct_guesses.push(guess)
     end
   end
 
@@ -39,17 +49,6 @@ class Game
   end
 
   def new_guess(guess)
-  end
-
-  def check(guess)
-    if @answer_array.include?(guess)
-      puts "yay"
-      puts @answer
-    else
-      puts "boo"
-      @wrong_guesses.push(guess)
-      puts @answer
-    end
   end
 
 end
@@ -65,9 +64,9 @@ ZZZZZZZZZZZZZZZZZZZZZZ$ZI
 O$ZZZZZZZZZZZZZZZZZZZZZ=
 ZZZZZZZZZZZZZZZZZ$$Z$O
 ZZZZZZZZZZZZZZZZZZOZ
-ZZZZZZZZZZZZZZZZOI              NMMM       MNMM       MMNM      MMMM      MMMM      MMMM       MMM       NNM
-ZZZZZZZZZZZZZZZ?               MMNMMM     MMNMNN     MMMMMM    NMMMMM    MMMMMM    MMMMMM     MMNMM,    NMMMM
-ZZZZZZZZZZZZZZZOOI              MMMM       MMNM       MNMN      MNNM      MNMM      NMMM       MMM       MNM
+ZZZZZZZZZZZZZZZZOI       NMMM       MNMM       MMNM      MMMM      MMMM      MMMM       MMM       NNM
+ZZZZZZZZZZZZZZZ?        MMNMMM     MMNMNN     MMMMMM    NMMMMM    MMMMMM    MMMMMM     MMNMM,    NMMMM
+ZZZZZZZZZZZZZZZOOI       MMMM       MMNM       MNMN      MNNM      MNMM      NMMM       MMM       MNM
 ZZZZZZZZZZZZZZZZZ$Z:
 ZZZZZZZZZZZZZZZZZZZZZO
 ZZZZZZZZZZZZZZZZZZZZZ$Z
@@ -87,7 +86,11 @@ puts "Welcome to Word Guess!"
 puts "Enter letters to guess the secret word before pacman eats everything!"
 puts "What is your guess?"
 
+while true
 guess = gets.chomp.upcase
+
+a.check_guess(guess)
 a.print_board(guess)
 
-puts "Your guess was #{guess}."
+puts "\nYour guess was #{guess}."
+end
