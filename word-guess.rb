@@ -36,14 +36,11 @@ class Board
       @strikes_left = 6
       @game = game
       @blanks = []
-      @blank_array = false
 
       @game.word.length.times do
         @blanks.push("_ ")
       end
 
-      puts @blanks.join(" ")
-      puts ""
   end
 
   def display
@@ -79,7 +76,9 @@ class Board
     puts cheese_3 * @strikes_left
     puts cheese_4 * @strikes_left
     puts ""
-    #underscores   # this might be an issue
+
+    puts @blanks.join(" ")
+    puts ""
   end
 end
 
@@ -92,30 +91,33 @@ def play_mouse_party
   puts "The length of the random word is #{game.word.length}"
   puts "The word is #{game.word}"
 
-  print "Give me a letter to guess? "
-  guess = gets.chomp
-  game.guess_list.push(guess)
-
   word_array = game.word.split("")
 
-  word_array.length.times do |i|
-    if word_array[i] == guess
-      puts "yay!"
-      board.blanks[i] = guess
-      # here change the corresponding index in @blanks array to guess
-    else
-      puts "nope."
+  while board.strikes_left > 0
+    if !board.blanks.include?("_ ")
+      puts "You win! 😻"
+      exit
     end
+
+    print "Give me a letter to guess? "
+    guess = gets.chomp
+    game.guess_list.push(guess)
+
+    if word_array.include?(guess)
+      word_array.length.times do |i|
+        if word_array[i] == guess
+          board.blanks[i] = guess
+        end
+      end
+    else
+        board.strikes_left -= 1
+    end
+
+    puts board.blanks.join(" ") + "\n\n"
   end
 
+  puts "You lose 🙀 "
 
-# while board.strikes > 0
-#     print "Give me a letter to guess? "
-#     guess = gets.chomp
-#     game.guess_list.push(guess)
-#     puts "You've guessed the folloing letters: #{game.guess_list}"
-#     # update number of cheese to print
-#     print board.display
 end
 
 
