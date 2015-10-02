@@ -35,7 +35,7 @@ class Board
   def initialize(game)
       @strikes = 6
       @game = game
-      @blanks = []
+      @blanks = underscores
   end
 
   def display
@@ -75,12 +75,14 @@ class Board
   end
 
   def underscores
+    @blanks = []
     @game.word.length.times do
       @blanks.push("_ ")
     end
 
     puts @blanks.join(" ")
     puts ""
+
   end
 
 end
@@ -92,7 +94,26 @@ def play_mouse_party
   board = Board.new(game)
   print board.display
   puts "The length of the random word is #{game.word.length}"
-  puts "The word was #{game.word}"
+  puts "The word is #{game.word}"
+
+  print "Give me a letter to guess? "
+  guess = gets.chomp
+  game.guess_list.push(guess)
+
+  word_array = game.word.split("")
+  count = 0
+  word_array.each do |letter|
+    if letter == guess
+      puts "yay!"
+      # here change the corresponding index in @blanks array to guess
+      count += 1
+    else
+      puts "nope."
+      count += 1
+    end
+  end
+
+  puts board.underscores
 
 # while board.strikes > 0
 #     print "Give me a letter to guess? "
