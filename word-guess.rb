@@ -8,6 +8,8 @@ MAX_GUESSES = 6
 # In this class we will control the workings of the game
 class Game
 
+  attr_accessor :word
+
   def initialize
     @word = word_gen
     @guesses = [] # the letters that the player has guessed, starts at none
@@ -34,9 +36,11 @@ end
 
 
 class Board
-  def initialize
+  def initialize(game)
       @guesses = 6
+      @game = game
   end
+
   mouse = """
   .--,       .--,
   ( (  \\.---./ ) )
@@ -66,8 +70,8 @@ def cheese_print
   puts cheese_4 * @guesses
 end
 
-def underscores(rando)
-  underscore = "_ " * rando.length
+def underscores
+  underscore = "_ " * @game.word.length
   puts rando
 end
 
@@ -76,11 +80,11 @@ end
 
 # Where the game is run from
 def play_mouse_party
+  game = Game.new
+  board = Board.new(game)
   print "Give me a letter to guess? "
   guess = gets.chomp
   puts guess
-
-  mouse_game = Game.new
 end
 
 play_mouse_party
