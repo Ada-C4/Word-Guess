@@ -33,7 +33,7 @@ class Board
   attr_accessor :strikes_left, :blanks
 
   def initialize(game)
-      @strikes_left = 6
+      @strikes_left = 10
       @game = game
       @blanks = []
 
@@ -60,10 +60,6 @@ class Board
      """
 
     puts mouse
-    cheese_print
-  end
-
-  def cheese_print
 
     cheese_1 = "   ____  "
     cheese_2 = "  /|o  | "
@@ -88,8 +84,8 @@ def play_mouse_party
   game = Game.new
   board = Board.new(game)
   print board.display
-  puts "The length of the random word is #{game.word.length}"
-  puts "The word is #{game.word}"
+  # puts "The length of the random word is #{game.word.length}"
+  # puts "The word is #{game.word}"
 
   word_array = game.word.split("")
 
@@ -113,10 +109,12 @@ def play_mouse_party
         board.strikes_left -= 1
     end
 
-    puts board.blanks.join(" ") + "\n\n"
+    board.display
+#    puts board.blanks.join(" ") + "\n\n"
   end
 
   puts "You lose 🙀 "
+  puts "Monsieur Le Mouse says: the word was #{game.word}. Tant pis!"
 
 end
 
