@@ -1,4 +1,5 @@
 # This will be our Mouse Party Game. By Jenna and Daphne.
+# updated with no content
 
 # In this class we will contain visual aspects, such as ASCII art
 class Art
