@@ -47,9 +47,7 @@ class Game
     # If there are no matches then add 1 to the number of errors
     if num_matches == 0
       @errors += 1
-      return false # Indicates there was no match
     end
-    return true # Indicates there was a match
   end
 
   def find_outcome
@@ -184,7 +182,7 @@ class Gameboard
     ______|_______________________|______
     |/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/|
     |          B i r t h d a y          |
-    |              E V E R! ! !         |
+    |             E V E R!!!            |
     | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |
     |___________________________________|""",
     ]
@@ -214,14 +212,12 @@ end
 
 # This method should set up the game
 def play_word_guess
-  def clear_screen
-    print %x{clear}
-  end
+  print %x{clear} # Clears the terminal screen
   game = Game.new()
   gameboard = Gameboard.new(game)
   outcome = PLAYING
   while outcome != GAME_WIN && outcome != GAME_LOSE
-    clear_screen
+    print %x{clear} # Clears the terminal screen
     gameboard.print_gameboard
     # Get a new guess
     print "Enter your guess: ".colorize(:blue)
@@ -237,10 +233,11 @@ def play_word_guess
       game.find_matches(guess)
       outcome = game.find_outcome
       if outcome == GAME_LOSE
-        clear_screen
+        print %x{clear} # Clears the terminal screen
         puts gameboard.cakes[6]
+        puts
         puts "Sorry, you ran out of turns.".colorize(:red)
-        puts "The secret word was #{game.secret_word}".colorize(:blue)
+        puts "The secret word was ".colorize(:red) + "#{game.secret_word.upcase}".colorize(:blue)
       elsif outcome == GAME_WIN
         puts "You correctly guessed the secret word: #{game.secret_word.upcase}!".colorize(:blue)
       end
@@ -259,7 +256,7 @@ def play_word_guess
 end
 
 # Start the game!
-clear_screen
+print %x{clear} # Clears the terminal screen
 puts "Welcome to the Birthday Cake Word Guess Game!".colorize(:red)
 puts "For each incorrect guess, you lose a candle.".colorize(:red)
 puts "When you run out of candles, your birthday is ruined.".colorize(:red)
