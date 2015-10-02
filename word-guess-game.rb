@@ -272,7 +272,7 @@ def play_word_guess
       puts "Sorry, you ran out of turns.".colorize(:red)
       puts "The secret word was ".colorize(:red) + "#{game.secret_word.upcase}".colorize(:blue)
     elsif outcome == GAME_WIN
-      puts "You correctly guessed the secret word: #{game.secret_word.upcase}!".colorize(:blue)
+      puts "You correctly guessed the secret word:".colorize(:red) + " #{game.secret_word.upcase}!".colorize(:blue)
     end
   end
 
