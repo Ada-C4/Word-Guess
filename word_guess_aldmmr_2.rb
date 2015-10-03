@@ -48,7 +48,10 @@ class Game
     @progress_array = ("_" * @answer_chararray.length).split("")
     @art_array = []
     @reassembled_art = ARTWORK
+    puts @reassembled_art
     @outcome = :unknown
+    puts @progress_array
+    puts (@progress_array.join(" ")).to_s
   end
 
 
@@ -110,16 +113,17 @@ class Board
   end
 
   def new_display
-    # display = ""
+    display = ""
     # show the artwork, in whatever state it now is in (depends on height of artwork, which determines max turns)
     # show the word_line in whatever status it is in (all blank, or filled or whatever)
     # show status messages about game outcome (win, lose, guess again)
 
     # first show artwork
-
-    display = @reassembled_art
-
-    display += @progress_array.join(" ")
+    puts @reassembled_art
+    display += @reassembled_art
+    puts display
+    display += (@progress_array.join(" ")).to_s
+    puts (@progress_array.join(" ")).to_s
 
     case @game.outcome
     when GAME_WIN
