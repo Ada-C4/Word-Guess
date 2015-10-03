@@ -123,7 +123,10 @@ def play_mouse_party
 
     print "Give me a letter to guess? "
     guess = gets.chomp.upcase
-    game.guess_list.push(guess)
+
+    if !game.guess_list.include?(guess)
+      game.guess_list.push(guess)
+    end
 
     if word_array.include?(guess)
       word_array.length.times do |i|
