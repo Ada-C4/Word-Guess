@@ -9,6 +9,7 @@
 #defining art_array - where to put it?
 #putting make_letter_array in initialize might mess it up
 # require "colorize"
+#don't forget to that the "a"s out of the words
 
 ARTWORK ="""
           __    __    __
@@ -28,10 +29,10 @@ GAME_LOSE = :lose
 
 WORDS = [
   "antelope",
-  "potato",
-  "sinking",
-  "tangerine",
-  "juice",
+  "potatoa",
+  "sinkinga",
+  "tangerinea",
+  "juicea",
   "postmaster"
 ]
 
@@ -63,17 +64,25 @@ class Game
 
     @art_array = ARTWORK.lines
     def new_guess(guessed_letter)
+      puts guessed_letter
+      # this is definitely getting the guessed letter at this point.
       #save copy of guess and add it to an array of guesses
       @guesses.push(guessed_letter)
       #RIGHT NOW including right and wrong guesses here!
-
       #compare the two arrays (answer_chararray and guessed_letter)
+      # print @answer_chararray #looks good
+
+      # print @progress_array #works!
+      # puts guessed_letter #works.
+
       i = 0
       @answer_chararray.each do |char|
         if guessed_letter == char
+          print @progress_array #DOES NOT WORK
           #replace the "_" in @progress_array with the letter
           @progress_array[i].replace(char)
           i += 1
+          print @progress_array #NOT HAPPENING
         else
           wrong_guess(guessed_letter)
         end
@@ -82,9 +91,12 @@ class Game
 
 
   def wrong_guess(guessed_letter)
-    # puts @art_array
-    @art_array = @art_array.delete_at(@art_array.length - 1)
-    reassemble_art
+    @art_array = ARTWORK.lines
+    puts @art_array
+    @art_array.delete_at(@art_array.length - 1)
+    puts "Hi."
+    puts @art_array
+    reassemble_art(@art_array)
     #last element in the array is the one we want to KEEP unchanged
     #remove an element that is second to last
     #print that string
@@ -95,9 +107,9 @@ class Game
     #pass progress_array to the Board
   end
 
-  def reassemble_art
+  def reassemble_art(art_array)
     # puts @art_array
-    @art_array.each do |art_line|
+    art_array.each do |art_line|
     @reassembled_art = puts art_line
     end
   end
@@ -134,16 +146,6 @@ class Board
     display += "\n"
     return display
   end
-
-
-    # WILL THIS GO IN GAME OR HERE??
-    # def build_word_line (LIKELY BE IN GAME)
-    #   # to get length of _ _ _ _ (game word display) will need to get .length of
-    #   #an element (word) in an array
-    #   # board will get access to that element from select_word in game
-    # end
-    #
-
 end
 
 
@@ -159,19 +161,25 @@ def play_wordguess
     print "Please enter a letter: "
     guessed_letter = gets
 
+#OK SO FAR
+
     #sanitize input
     guessed_letter = guessed_letter.gsub(/\s+/, "").upcase
-
+    puts guessed_letter
     #check to see that we did receive just one letter (no numbers, etc)
     if !guessed_letter.match(/^[A-Z]$/) #regex for one cap letter
       puts "Hey, that's not a letter!"
       next #skips ahead
     end
 
+#THIS APPEARS TO BE WORKING, TOO, UNTIL THIS POINT
+
     #Pass it to the game object
     game.new_guess(guessed_letter)
+#probably getting effed up here somewhere.
 
-    print board.new_display
+    print board.new_display(game)
+
   end
 
   puts "Do you want to play again?"
