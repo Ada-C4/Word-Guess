@@ -122,7 +122,12 @@ def play_mouse_party
     end
 
     print "Give me a letter to guess? "
-    guess = gets.chomp.upcase
+
+    guess = ''
+    until /[[:alpha:]]/.match(guess)
+      guess = gets.chomp.upcase
+      print "Please enter a letter: "
+    end
 
     if !game.guess_list.include?(guess)
       game.guess_list.push(guess)
