@@ -45,7 +45,7 @@ class Game
       when '3', '3.', 'hard'
         return @word.length
       else
-        puts "Pick a difficulty."
+        print "Pick a difficulty: "
       end
     end
   end
@@ -121,16 +121,11 @@ def play_mouse_party
       exit
     end
 
-    print "Give me a letter to guess? "
 
     guess = ''
     until /[[:alpha:]]/.match(guess)
-      guess = gets.chomp.upcase
-      print "Please enter a letter: "
-    end
-
-    if !game.guess_list.include?(guess)
-      game.guess_list.push(guess)
+      print "Give me a letter to guess? "
+      guess = gets.chomp.upcase.strip
     end
 
     if word_array.include?(guess)
@@ -140,7 +135,13 @@ def play_mouse_party
         end
       end
     else
+      if !game.guess_list.include?(guess)
         game.strikes_left -= 1
+      end
+    end
+
+    if !game.guess_list.include?(guess)
+      game.guess_list.push(guess)
     end
 
     board.display
