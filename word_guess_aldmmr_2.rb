@@ -8,7 +8,6 @@
 #progress array in right place
 #defining art_array - where to put it?
 #putting make_letter_array in initialize might mess it up
-
 # require "colorize"
 
 ARTWORK ="""
@@ -112,18 +111,17 @@ class Board
     @game = game
   end
 
-  def new_display
+  def new_display(game)
     display = ""
     # show the artwork, in whatever state it now is in (depends on height of artwork, which determines max turns)
     # show the word_line in whatever status it is in (all blank, or filled or whatever)
     # show status messages about game outcome (win, lose, guess again)
 
     # first show artwork
-    puts @reassembled_art
-    display += @reassembled_art
+    display += game.reassembled_art
     puts display
-    display += (@progress_array.join(" ")).to_s
-    puts (@progress_array.join(" ")).to_s
+    display += game.progress_array.join(" ")
+    puts game.progress_array.join(" ")
 
     case @game.outcome
     when GAME_WIN
@@ -153,7 +151,7 @@ def play_wordguess
   game = Game.new
   board = Board.new(game)
 
-  print board.new_display
+  print board.new_display(game)
 
   while !game.finished?
     print "Please enter a letter: "
