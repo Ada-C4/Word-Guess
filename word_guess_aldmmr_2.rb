@@ -47,10 +47,10 @@ class Game
     @progress_array = ("_" * @answer_chararray.length).split("")
     @art_array = []
     @reassembled_art = ARTWORK
-    puts @reassembled_art
+    # puts @reassembled_art
     @outcome = :unknown
-    puts @progress_array
-    puts (@progress_array.join(" ")).to_s
+    # puts @progress_array
+    # puts (@progress_array.join(" ")).to_s
   end
 
 
@@ -75,13 +75,14 @@ class Game
           @progress_array[i].replace(char)
           i += 1
         else
-          wrong_guess
+          wrong_guess(guessed_letter)
         end
       end
     end
 
 
   def wrong_guess(guessed_letter)
+    # puts @art_array
     @art_array = @art_array.delete_at(@art_array.length - 1)
     reassemble_art
     #last element in the array is the one we want to KEEP unchanged
@@ -95,6 +96,7 @@ class Game
   end
 
   def reassemble_art
+    # puts @art_array
     @art_array.each do |art_line|
     @reassembled_art = puts art_line
     end
@@ -119,9 +121,9 @@ class Board
 
     # first show artwork
     display += game.reassembled_art
-    puts display
+    # puts display
     display += game.progress_array.join(" ")
-    puts game.progress_array.join(" ")
+    # puts game.progress_array.join(" ")
 
     case @game.outcome
     when GAME_WIN
@@ -167,7 +169,7 @@ def play_wordguess
     end
 
     #Pass it to the game object
-    game.new_guessed_letter(guessed_letter)
+    game.new_guess(guessed_letter)
 
     print board.new_display
   end
