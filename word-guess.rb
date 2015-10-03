@@ -35,15 +35,20 @@ class Game
 
     print " > "
 
-    difficulty_level = gets.chomp
-
-    case difficulty_level.downcase
-      when '1', '1.', 'easy' then @word.length + 5
-      when '2', '2.', 'medium' then @word.length + 2
-      when '3', '3.', 'hard' then @word.length
+    while true
+      difficulty_level = gets.chomp
+      case difficulty_level.downcase
+      when '1', '1.', 'easy'
+        return @word.length + 5
+      when '2', '2.', 'medium'
+        return @word.length + 2
+      when '3', '3.', 'hard'
+        return @word.length
+      else
+        puts "Pick a difficulty."
+      end
     end
   end
-
 end
 
 
@@ -108,7 +113,11 @@ def play_mouse_party
 
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
-      puts "You win! 😻"
+      puts """
+         __________
+        < you win! >
+         ----------
+      """
       exit
     end
 
@@ -130,7 +139,11 @@ def play_mouse_party
     puts "You've already guessed: #{game.guess_list.join(", ")}\n\n"
   end
 
-  puts "You lose 🙀 "
+  puts """
+     __________
+    < you lose >
+     ----------
+  """
   puts "Monsieur Le Mouse says: the word was #{game.word}. Tant pis!"
 
 end
