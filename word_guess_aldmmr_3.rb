@@ -117,7 +117,7 @@ class Game
     @art.delete_at(@art.length - 3)
     puts "We are still in wrong guess after altering art array. what does it look like?"
     puts @art
-    reassemble_art(@art)
+    # reassemble_art(game.art)
     #last element in the array is the one we want to KEEP unchanged
     #remove an element that is second to last
     #print that string
@@ -128,15 +128,15 @@ class Game
     #pass progress_array to the Board
   end
 
-  def reassemble_art(art)
-    puts "Here is art before"
-    puts @art
-    art.each do |art_line|
-    @art = puts art_line
-    puts "Here is art after"
-    put @art
-    end
-  end
+  # def reassemble_art(art)
+  #   puts "Here is art before"
+  #   puts @art
+  #   art.each do |art_line|
+  #   @art = puts art_line
+  #   puts "Here is art after"
+  #   puts @art
+  #   end
+  # end
 
   def finished?
     @outcome == GAME_WIN || @outcome == GAME_LOSE
@@ -159,7 +159,7 @@ class Board
     # show status messages about game outcome (win, lose, guess again)
 
     # first show artwork
-    display += @game.art
+    display += @game.art.join
     # puts display
     display += @game.progress_array.join(" ")
     # puts game.progress_array.join(" ")
