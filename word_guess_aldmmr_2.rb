@@ -39,7 +39,7 @@ WORDS = [
 
 class Game
 
-  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art_array, :reassembled_art
+  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art_array, :reassembled_art, :guessed_letter
 
   def initialize
     #initalize game state
@@ -51,6 +51,7 @@ class Game
     @reassembled_art = ARTWORK
     # puts @reassembled_art
     @outcome = :unknown
+    #@guessed_letter = guessed_letter
     # puts @progress_array
     # puts (@progress_array.join(" ")).to_s
   end
@@ -63,7 +64,7 @@ class Game
     chosen_word.split("")
   end
 
-    @art_array = ARTWORK.lines
+  @art_array = ARTWORK.lines
   def new_guess(guessed_letter)
     puts guessed_letter
     # this is definitely getting the guessed letter at this point.
@@ -81,17 +82,17 @@ class Game
 
 
   def check_letter(progress_array, answer_chararray, guessed_letter)
-    puts "We are in check_letter now."#works
+    puts "We are in check_letter now." #works
     i = 0
     print answer_chararray
     puts "Still in check_letter." #works
     right_answer_indicator = 0
     answer_chararray.each do |char|
       if guessed_letter == char
-        print progress_array
+        #print progress_array
         progress_array[i].replace(char)
         right_answer_indicator += 1
-        puts "Here is the progress array in check_ letter:"
+        puts "Here is the progress array in check_letter:"
         print progress_array #NOT HAPPENING
         puts "right answer indicator is #{right_answer_indicator}"
       end
@@ -104,7 +105,7 @@ class Game
     end
 
     if right_answer_indicator == 0
-      wrong_guess(guessed_letter)
+      wrong_guess(@guessed_letter)
     end
   end
 
@@ -179,21 +180,21 @@ def play_wordguess
 
   while !game.finished?
     print "Please enter a letter: "
-    guessed_letter = gets
+    @guessed_letter = gets
 #OK SO FAR
     #sanitize input
-    guessed_letter = guessed_letter.gsub(/\s+/, "").upcase
-    puts guessed_letter
+    @guessed_letter = @guessed_letter.gsub(/\s+/, "").upcase
+    puts @guessed_letter
     #check to see that we did receive just one letter (no numbers, etc)
-    if !guessed_letter.match(/^[A-Z]$/) #regex for one cap letter
+    if !@guessed_letter.match(/^[A-Z]$/) #regex for one cap letter
       puts "Hey, that's not a letter!"
-      next #skips ahead
+      next #returns to "Please enter a letter: "
     end
 
 #THIS APPEARS TO BE WORKING, TOO, UNTIL THIS POINT
 
     #Pass it to the game object
-    game.new_guess(guessed_letter)
+    game.new_guess(@guessed_letter)
 
 #probably getting effed up here somewhere.
 
@@ -205,7 +206,7 @@ def play_wordguess
   response = gets.chomp.upcase
   case response
   when "1", "Y", "YES"
-    play_wordguess
+    play_wordguess #doesn't randomly pick a new word, returns same word
   else
     puts "Thanks for playing Word Guess!"
     exit
