@@ -1,16 +1,6 @@
-#REMEMBER to change guessed_letter array to only have correct letters!
-#possible problem spots-
-#might need return for make letter array
-#does match mean true? (in regex part)
-#in new_guess might need guessed_letter.dup
-#could separate out checking guesses as a method from new_guess
-#initializing @progress_array, variables found ok?
-#progress array in right place
-#putting make_letter_array in initialize might mess it up
-# require "colorize"
-#don't forget to that the "a"s out of the words
-#make it so game is winnable
-#commented out reassemble_art
+#to do monday- make it so that the game only tells you that you won or lose when that happens, and doesn't still give you a message about your guess.
+#add better comments to make code clearer and cleaner
+
 
 ARTWORK ="""
           __    __    __
@@ -23,10 +13,11 @@ ARTWORK ="""
  _,~')_,~')_,~')_,~')_,~')_,~')_,~')/,~')_
  """
 
-MAX_TURNS = (ARTWORK.lines.length - 2)
-
 GAME_WIN = :win
 GAME_LOSE = :lose
+
+CORRECT = :correct
+INCORRECT = :incorrect
 
 WORDS = [
   "ANTELOPE",
@@ -39,7 +30,7 @@ WORDS = [
 
 class Game
 
-  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art
+  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art, :resultfromguess
 
   def initialize
     #initalize game state
@@ -48,14 +39,9 @@ class Game
     @guesses = []
     @progress_array = ("_" * @answer_chararray.length).split("")
     @art = ARTWORK.lines
-    puts "We made a game."
-    puts "Here is the art"
-    puts @art
-    # @reassembled_art = ARTWORK
-    # puts @reassembled_art
     @outcome = :unknown
-    print @progress_array
-    puts (@progress_array.join(" ")).to_s
+    @resultfromguess = :unknown
+    puts "\nWelcome to Word Guess!"
   end
 
 
@@ -67,39 +53,24 @@ class Game
   end
 
   def new_guess(guessed_letter)
-    puts guessed_letter
-    # this is definitely getting the guessed letter at this point.
     #save copy of guess and add it to an array of guesses
     @guesses.push(guessed_letter)
     #RIGHT NOW including right and wrong guesses here!
-    #compare the two arrays (answer_chararray and guessed_letter)
-    # print @answer_chararray #looks good
-
-    print @progress_array #works!
-    puts guessed_letter #works.
-    print @answer_chararray #works.
     check_letter(@progress_array, @answer_chararray, guessed_letter)
   end
 
 
   def check_letter(progress_array, answer_chararray, guessed_letter)
-    puts "We are in check_letter now."#works
     i = 0
-    print answer_chararray
-    puts "Still in check_letter." #works
     right_answer_indicator = 0
     answer_chararray.each do |char|
       if guessed_letter == char
-        print progress_array
         progress_array[i].replace(char)
         right_answer_indicator += 1
-        puts "Here is the progress array in check_ letter:"
-        print progress_array #NOT HAPPENING
-        puts "right answer indicator is #{right_answer_indicator}"
+        @resultfromguess = CORRECT
       end
+
       i += 1
-      puts i
-      puts "Let's check if we won."
       if !progress_array.include?("_")
         @outcome = GAME_WIN
       end
@@ -112,31 +83,13 @@ class Game
 
 
   def wrong_guess(guessed_letter)
-    puts "We are in wrong_guess. Here is art array"
-    puts @art
+    #change the art to reflect the wrong answer
     @art.delete_at(@art.length - 3)
-    puts "We are still in wrong guess after altering art array. what does it look like?"
-    puts @art
-    # reassemble_art(game.art)
-    #last element in the array is the one we want to KEEP unchanged
-    #remove an element that is second to last
-    #print that string
-
-    #delete a line from the artwork
-    #add wrong guess to an wrong_guess_array
-    #give a message
-    #pass progress_array to the Board
+    @resultfromguess = INCORRECT
+    if @art.length == 3
+      @outcome = GAME_LOSE
+    end
   end
-
-  # def reassemble_art(art)
-  #   puts "Here is art before"
-  #   puts @art
-  #   art.each do |art_line|
-  #   @art = puts art_line
-  #   puts "Here is art after"
-  #   puts @art
-  #   end
-  # end
 
   def finished?
     @outcome == GAME_WIN || @outcome == GAME_LOSE
@@ -150,9 +103,6 @@ class Board
   end
 
   def new_display
-    puts "Here we are in new_display. check out the art."
-    print @game.progress_array
-    print @game.art
     display = ""
     # show the artwork, in whatever state it now is in (depends on height of artwork, which determines max turns)
     # show the word_line in whatever status it is in (all blank, or filled or whatever)
@@ -160,9 +110,18 @@ class Board
 
     # first show artwork
     display += @game.art.join
+    display += "\n"
     # puts display
     display += @game.progress_array.join(" ")
+    display += "\n"
     # puts game.progress_array.join(" ")
+
+    case @game.resultfromguess
+    when CORRECT
+      display += "\nGreat guess! Your ship is afloat for now\n"
+    when INCORRECT
+      display += "\nWhoops. Wrong guess. Your ship is sinking!\n"
+    end
 
     case @game.outcome
     when GAME_WIN
@@ -190,19 +149,14 @@ def play_wordguess
 #OK SO FAR
     #sanitize input
     guessed_letter = guessed_letter.gsub(/\s+/, "").upcase
-    puts guessed_letter
     #check to see that we did receive just one letter (no numbers, etc)
     if !guessed_letter.match(/^[A-Z]$/) #regex for one cap letter
       puts "Hey, that's not a letter!"
       next #skips ahead
     end
 
-#THIS APPEARS TO BE WORKING, TOO, UNTIL THIS POINT
-
     #Pass it to the game object
     game.new_guess(guessed_letter)
-
-#probably getting effed up here somewhere.
 
     print board.new_display
 
