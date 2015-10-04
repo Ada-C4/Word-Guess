@@ -6,7 +6,6 @@
 #could separate out checking guesses as a method from new_guess
 #initializing @progress_array, variables found ok?
 #progress array in right place
-#defining art_array - where to put it?
 #putting make_letter_array in initialize might mess it up
 # require "colorize"
 #don't forget to that the "a"s out of the words
@@ -40,7 +39,7 @@ WORDS = [
 
 class Game
 
-  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art_array #:reassembled_art
+  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art
 
   def initialize
     #initalize game state
@@ -48,15 +47,15 @@ class Game
     @answer_chararray = make_letter_array
     @guesses = []
     @progress_array = ("_" * @answer_chararray.length).split("")
-    @art_array = ARTWORK.lines
+    @art = ARTWORK.lines
     puts "We made a game."
-    puts "Here is the art_array"
-    puts @art_array
+    puts "Here is the art"
+    puts @art
     # @reassembled_art = ARTWORK
     # puts @reassembled_art
     @outcome = :unknown
-    # puts @progress_array
-    # puts (@progress_array.join(" ")).to_s
+    print @progress_array
+    puts (@progress_array.join(" ")).to_s
   end
 
 
@@ -114,11 +113,11 @@ class Game
 
   def wrong_guess(guessed_letter)
     puts "We are in wrong_guess. Here is art array"
-    puts @art_array
-    @art_array.delete_at(@art_array.length - 3)
+    puts @art
+    @art.delete_at(@art.length - 3)
     puts "We are still in wrong guess after altering art array. what does it look like?"
-    puts @art_array
-    # reassemble_art(@art_array)
+    puts @art
+    reassemble_art(@art)
     #last element in the array is the one we want to KEEP unchanged
     #remove an element that is second to last
     #print that string
@@ -129,12 +128,15 @@ class Game
     #pass progress_array to the Board
   end
 
-  # def reassemble_art(art_array)
-  #   # puts @art_array
-  #   art_array.each do |art_line|
-  #   @reassembled_art = puts art_line
-  #   end
-  # end
+  def reassemble_art(art)
+    puts "Here is art before"
+    puts @art
+    art.each do |art_line|
+    @art = puts art_line
+    puts "Here is art after"
+    put @art
+    end
+  end
 
   def finished?
     @outcome == GAME_WIN || @outcome == GAME_LOSE
@@ -148,16 +150,16 @@ class Board
   end
 
   def new_display
-    puts "Here we are in new_display. check out the art array."
-    puts @game.progress_array
-    print @game.art_array
+    puts "Here we are in new_display. check out the art."
+    print @game.progress_array
+    print @game.art
     display = ""
     # show the artwork, in whatever state it now is in (depends on height of artwork, which determines max turns)
     # show the word_line in whatever status it is in (all blank, or filled or whatever)
     # show status messages about game outcome (win, lose, guess again)
 
     # first show artwork
-    display += @game.art_array
+    display += @game.art
     # puts display
     display += @game.progress_array.join(" ")
     # puts game.progress_array.join(" ")
