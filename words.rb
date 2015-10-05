@@ -1,3 +1,4 @@
+require "colorize"
 MAX_ERRORS = 7
 
 class Game
