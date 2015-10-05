@@ -1,6 +1,8 @@
 #to do monday- make it so that the game only tells you that you won or lose when that happens, and doesn't still give you a message about your guess.
 #add better comments to make code clearer and cleaner
-
+#letters you already guessed
+#no two of the same word in a row
+#center welcome over length of wordart
 
 ARTWORK ="""
           __    __    __
@@ -30,18 +32,20 @@ WORDS = [
 
 class Game
 
-  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art, :resultfromguess
+  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art, :resultfromguess, :wrong_guess_array
 
   def initialize
     #initalize game state
     make_letter_array
     @answer_chararray = make_letter_array
+    print @answer_chararray
     @guesses = []
     @progress_array = ("_" * @answer_chararray.length).split("")
     @art = ARTWORK.lines
     @outcome = :unknown
     @resultfromguess = :unknown
-    puts "\nWelcome to Word Guess!"
+    @wrong_guess_array = []
+    puts "\n\nWelcome to Word Guess!"
   end
 
 
@@ -53,8 +57,8 @@ class Game
   end
 
   def new_guess(guessed_letter)
-    #save copy of guess and add it to an array of guesses
-    @guesses.push(guessed_letter)
+    # #save copy of guess and add it to an array of guesses
+    # @guesses.push(guessed_letter)
     #RIGHT NOW including right and wrong guesses here!
     check_letter(@progress_array, @answer_chararray, guessed_letter)
   end
@@ -86,6 +90,9 @@ class Game
     #change the art to reflect the wrong answer
     @art.delete_at(@art.length - 3)
     @resultfromguess = INCORRECT
+    print @wrong_guess_array
+    @wrong_guess_array.push(guessed_letter)
+    print @wrong_guess_array
     if @art.length == 3
       @outcome = GAME_LOSE
     end
@@ -113,23 +120,26 @@ class Board
     display += "\n"
     # puts display
     display += @game.progress_array.join(" ")
-    display += "\n"
-    # puts game.progress_array.join(" ")
+    display += "\n\n"
+    display += "Wrong guesses: #{@game.wrong_guess_array.join(" ")}\n\n"
 
-    case @game.resultfromguess
-    when CORRECT
-      display += "\nGreat guess! Your ship is afloat for now\n"
-    when INCORRECT
-      display += "\nWhoops. Wrong guess. Your ship is sinking!\n"
-    end
+    if !@game.finished?
+      case @game.resultfromguess
+      when CORRECT
+        display += "Great guess! Your ship is afloat for now\n\n"
+      when INCORRECT
+        display += "Whoops. Wrong guess. Your ship is sinking!\n\n"
+      end
 
-    case @game.outcome
-    when GAME_WIN
-      display += "\nYou Won!"
-    when GAME_LOSE
-      display += "\nYou lost. :("
+    else
+      case @game.outcome
+      when GAME_WIN
+        display += "You Won! :)\n"
+      when GAME_LOSE
+        display += "You Lost. :(\n"
+      end
+      display += "\n"
     end
-    display += "\n"
     return display
   end
 end
@@ -146,7 +156,6 @@ def play_wordguess
   while !game.finished?
     print "Please enter a letter: "
     guessed_letter = gets
-#OK SO FAR
     #sanitize input
     guessed_letter = guessed_letter.gsub(/\s+/, "").upcase
     #check to see that we did receive just one letter (no numbers, etc)
