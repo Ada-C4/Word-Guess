@@ -1,14 +1,16 @@
 # Setting global variables
+$max_wrong = 0
+
 class Game
 attr_reader :answer, :guesses, :guess_index, :slots
 
   def initialize
     @answer = [] # Will pull a new word each game
-    @guesses = [] # No guesses yet in the array
+    @guesses = [] # Array of past guesses
     # @display = Board.new
-    @slots = []
+    @slots = [] # Array of slots for game display
     @guess_index = 0
-    $max_wrong = 0
+    # @max_wrong = 0
   end
 
   def play
@@ -23,6 +25,7 @@ attr_reader :answer, :guesses, :guess_index, :slots
   def welcome_message
     puts "Welcome. So you want to play a game? I'm going to choose a word, and you guess the word one letter at a time."
     puts "RULES"
+    @mouse = Board.new
   end
 
   def generate_answer
@@ -40,46 +43,51 @@ attr_reader :answer, :guesses, :guess_index, :slots
 
   def game_play
     # loop until game end
-    mouse = Board.new
     until $max_wrong == 10 || @slots == @answer
-      print mouse.move_board
-      #print %x{clear} # Clears the terminal screen
+      # print current ASCII art
+      print @mouse.move_board
+      # print slots array
       print @slots
       puts
       puts
+      # print array of letters already guessed
       puts "These are the letters you've already guessed: #{@guesses.sort}"
       puts
+      # get user input for new gues
       puts "Pick a new letter: "
       input = gets.chomp.downcase
       puts
+      # Checking to make sure input is an integer
       letters = ("a".."z").to_a
       while letters.include?(input) != true
         puts "I don't think that was a letter. Try again."
         input = gets.chomp
       end
-      @guesses.push(input)
       letter_match(input)
+      @guesses.push(input)
       puts
-      puts
-    end
+      puts " ------------------------------ "
+      end
   end
 
   def letter_match(guess)
+    # Setting up copy array to test for multiple instances of a single letter
     answer_copy = Array.new(@answer)
     num_match = 0
+    # Make sure they aren't penalized for guessing the same letter again
+    if @guesses.include?(guess)
+    puts "You already guessed that letter, silly."
+    end
     while answer_copy.include?(guess)
       @guess_index = answer_copy.find_index(guess)
       @slots[@guess_index + num_match] = guess
       answer_copy.delete_at(@guess_index)
       num_match += 1
     end
-    if @guesses.include?(guess)
-    puts "You already guessed that letter, silly."
-    elsif @slots.include?(guess) == false
+    if @slots.include?(guess) != true
       puts "Wrong!"
       $max_wrong += 1
       puts "#{$max_wrong} wrong guesses so far."
-      #moving ASCII art
     end
   end
 
@@ -258,42 +266,3 @@ attr_reader
   eos
   end
 end
-#  def mouse_1
-#    return "1"
-#  end
-#
-#  def mouse_2
-#    return "2"
-#  end
-#
-#  def mouse_3
-#    return "3"
-#  end
-#
-#  def mouse_4
-#    return "4"
-#  end
-#
-#  def mouse_5
-#    return "5"
-#  end
-#
-#  def mouse_6
-#    return "6"
-#  end
-#
-#  def mouse_7
-#    return "7"
-#  end
-#
-#  def mouse_8
-#    return "8"
-#  end
-#
-#  def mouse_9
-#    return "9"
-#  end
-#
-#  def dead_mouse
-#    return "dead"
-#  end
