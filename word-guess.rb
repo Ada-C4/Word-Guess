@@ -133,7 +133,7 @@ def play_mouse_party
 
   word_array = game.word.split("")
 
-  puts "The word is #{game.word}"   # prints the word, useful for testing
+  # puts "The word is #{game.word}"   # prints the word, useful for testing
 
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
@@ -148,7 +148,7 @@ def play_mouse_party
 
 
     guess = ''
-    until /[[:alpha:]]/.match(guess)
+    until /^[a-zA-Z]+$/.match(guess) # matches strings that consist of only 1 or more letters
       print "Give me a letter to guess? "
       guess = gets.chomp.upcase.strip
     end
