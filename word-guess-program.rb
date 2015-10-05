@@ -43,14 +43,19 @@ attr_reader :answer, :guesses, :guess_index, :slots
     # loop until game end
     until @max_wrong == 10 || @slots == @answer
       # print board
-      print %x{clear} # Clears the terminal screen
+      #print %x{clear} # Clears the terminal screen
       print @slots
       puts
+      puts
       puts "These are the letters you've already guessed: #{@guesses.sort}"
+      puts
       puts "Pick a new letter: "
       input = gets.chomp.downcase
+      puts
       @guesses.push(input)
       letter_match(input)
+      puts
+      puts
       end
   end
 
@@ -64,9 +69,9 @@ attr_reader :answer, :guesses, :guess_index, :slots
       answer_copy.delete_at(@guess_index)
       num_match += 1
     end
-    # if @guesses.include?(guess)
-    #   puts "You already guessed that letter, silly."
-    if @slots.include?(guess) == false
+    if @guesses.include?(guess)
+    puts "You already guessed that letter, silly."
+    elsif @slots.include?(guess) == false
       puts "Wrong!"
       @max_wrong += 1
       puts "#{@max_wrong} wrong guesses so far."
