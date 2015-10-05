@@ -33,25 +33,57 @@ class Game
   attr_accessor :word, :guess_list, :strikes_left
 
   def initialize
-    @word = word_gen
     @guess_list = [] # the letters that the player has guessed, starts at none
+    @language = choose_language
+    @word = word_gen
     @strikes_left = difficulty
   end
 
   def word_gen
     # word list is from http://www.desiquintans.com/nounlist
     # "wordlist.txt" is saved in the same directory as this ruby file
-    words = open("wordlist.txt")
-    array_of_words = words.readlines
-    array_of_words.map! do |word|
-      word.strip
-    end
-    rando = array_of_words[rand(0...array_of_words.length)]
-    while rando.length < 5 || rando.length > 7
+    if @language == :english
+      words = open("wordlist.txt")
+      array_of_words = words.readlines
+      array_of_words.map! do |word|
+        word.strip
+      end
       rando = array_of_words[rand(0...array_of_words.length)]
+      while rando.length < 5 || rando.length > 7
+        rando = array_of_words[rand(0...array_of_words.length)]
+      end
+      words.close
+      return rando.upcase
+
+    elsif @language == :french
+      words = open("frenchwordlist.txt")
+      array_of_words = words.readlines
+      array_of_words.map! do |word|
+        word.strip
+      end
+      rando = array_of_words[rand(0...array_of_words.length)]
+      while rando.length < 4 || rando.length > 6
+        rando = array_of_words[rand(0...array_of_words.length)]
+      end
+      words.close
+      return rando.upcase
     end
-    words.close
-    return rando.upcase
+  end
+
+  def choose_language
+    print "Would you like to play the game in English or French? "
+
+    while true
+      language = gets.chomp
+      case language.downcase
+      when 'english'
+        return :english
+      when 'french'
+        return :french
+      else
+        print "Pick a language: "
+      end
+    end
   end
 
   def difficulty
