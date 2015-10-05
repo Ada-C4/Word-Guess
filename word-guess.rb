@@ -72,8 +72,8 @@ class Game
     end
   end
 
-  def new_guess(guess)
-  end
+  #def new_guess(guess)
+  #end
 
   def play_game
     start_game
