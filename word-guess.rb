@@ -3,7 +3,8 @@ require "colorize"
 # Game Constants
 MAX_WRONG = 8
 
-WORDS = %w(flower pancake caterpillar avocado dragon sushi kitten monkey football crazy mango pineapple developer engineer waffle toast penguin)
+WORDS = %w(flower pancake caterpillar avocado dragon sushi kitten monkey football crazy mango
+ pineapple developer engineer waffle toast penguin diamond coffee magenta breakfast croissant)
 
 class Game
   def initialize
@@ -28,18 +29,32 @@ class Game
   def print_board(guess)
     2.times {puts}
     print_image
-    print "\n\n\nWord: ".light_blue
+    print "\n\n\nWord: ".light_magenta
     @answer_array.each do |letter|
       if letter == guess || @correct_guesses.include?(letter)
-        print letter.light_blue
+        print letter.light_magenta
         @guess_array.push(letter)
       else
-        print "_".light_blue
+        print "_".light_magenta
       end
     end
-    puts "\nWrong guesses:\n#{@wrong_guesses.join(" ")}".light_blue
+    puts "\nWrong guesses:\n#{@wrong_guesses.join(" ")}".light_magenta
    @turn_array = @guess_array
    @guess_array = []
+  end
+
+  def check_valid(input)
+    alphabet =  ('A'..'Z').to_a
+    while !alphabet.include?(input) || @wrong_guesses.include?(input) || @correct_guesses.include?(input)
+      if !alphabet.include?(input)
+        puts "That is not a valid guess. Please enter a letter.".red
+        input = gets.chomp.upcase
+      else
+        puts "You've already guessed #{input}. Please enter a different letter.".red
+        input = gets.chomp.upcase
+      end
+    end
+    return input
   end
 
   def check_guess(guess)
@@ -75,7 +90,8 @@ class Game
   def play_game
     start_game
     until game_lost? || game_won?
-      guess = gets.chomp.upcase
+      input = gets.chomp.upcase
+      guess = check_valid(input)
       check_guess(guess)
       print_board(guess)
       if !game_lost? && !game_won?
