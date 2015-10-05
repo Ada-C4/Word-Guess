@@ -53,7 +53,7 @@ attr_reader :answer, :guesses, :guess_index, :slots
       # print array of letters already guessed
       puts "These are the letters you've already guessed: #{@guesses.sort}"
       puts
-      # get user input for new gues
+      # get user input for new guess
       puts "Pick a new letter: "
       input = gets.chomp.downcase
       puts
@@ -159,7 +159,7 @@ attr_reader
                (/---\\)                                                                    /   '=====((()    """""//
                                                                                          /___________'__________//
                                                                                          `----------'----------'`
-   eos
+  eos
   end
 
   def mouse_4
@@ -174,7 +174,7 @@ attr_reader
                        (/---\\)                                                            /   '=====((()    """""//
                                                                                          /___________'__________//
                                                                                          `----------'----------'`
-   eos
+  eos
   end
 
   def mouse_5
@@ -191,7 +191,7 @@ attr_reader
                                (/---\\)                                                    /   '=====((()    """""//
                                                                                          /___________'__________//
                                                                                          `----------'----------'`
-   eos
+  eos
   end
   def mouse_6
    return <<-eos
