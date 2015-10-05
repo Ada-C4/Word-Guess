@@ -28,12 +28,34 @@ class Game
   end
 
   def difficulty
-    puts "What difficulty would you like in the battle for the cheese against Monsieur Le Mouse?"
-    puts "1. Easy"
+    mouse = """
+        .--,       .--,
+        ( (  \\.---./ ) )
+        '.__/o   o\\__.'
+           {=  ^  =}
+            >  -  <
+           /       \\
+          //       \\\\
+         //|   .   |\\\\
+         \"'\\       /'\"_.-~^`'-.
+            \\  _  /--'         `
+          ___)( )(___
+         (((__) (__)))
+         """
+    puts mouse
+    puts "Bonjour! Je suis Monsieur Le Mouse."
+    puts "You're here to win some of my precious fromage, n'est-ce pas? Allons-y!"
+    puts "\nHere are ze rules:"
+    puts "Zees iz a word-guess game. Guess the word I give you, either one letter at a time or the whole word at once."
+    puts "If you guess individual letters correctly, they will be shown on the board."
+    puts "But if you guess wrong, I take away ze cheese!"
+    puts "\nYou get the most guesses in Easy mode and the fewest in Hard."
+    puts "Bonne chance!"
+    puts "\n1. Easy"
     puts "2. Medium"
     puts "3. Hard\n\n"
 
-    print " > "
+    print "Select ze difficulty level: "
 
     while true
       difficulty_level = gets.chomp
@@ -116,10 +138,11 @@ def play_mouse_party
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
       puts """
-         __________
-        < you win! >
-         ----------
+         _______________________
+        < Félictations! You win!  >
+         -----------------------
       """
+      puts "\t   #{game.strikes_left} cheeses".colorize(:yellow) + " for you!\n\n"
       exit
     end
 
@@ -131,12 +154,12 @@ def play_mouse_party
     end
 
     if guess == game.word.upcase && guess.length > 1
-      puts "You win!"
       puts """
-         __________
-        < you win! >
-         ----------
+         _______________________
+        < Félictations! You win! >
+         -----------------------
       """
+      puts "\t   #{game.strikes_left} cheeses".colorize(:yellow) + " for you!\n\n"
       exit
     elsif guess.length > 1
       game.strikes_left -= 1
@@ -167,7 +190,8 @@ def play_mouse_party
     <  you lose! >
       ----------
   """
-  puts "Monsieur Le Mouse says: the word was #{game.word}. Tant pis!"
+  puts "Monsieur Le Mouse says: the word was #{game.word}."
+  puts "No cheeses".colorize(:yellow) + " for you. Tant pis!\n\n"
 
 end
 
