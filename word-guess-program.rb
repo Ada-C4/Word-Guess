@@ -1,5 +1,4 @@
 # Setting global variables
-
 class Game
 attr_reader :answer, :guesses, :guess_index, :slots
 
@@ -9,7 +8,7 @@ attr_reader :answer, :guesses, :guess_index, :slots
     # @display = Board.new
     @slots = []
     @guess_index = 0
-    @max_wrong = 0
+    $max_wrong = 0
   end
 
   def play
@@ -41,8 +40,8 @@ attr_reader :answer, :guesses, :guess_index, :slots
 
   def game_play
     # loop until game end
-    until @max_wrong == 10 || @slots == @answer
-      # print board
+    until $max_wrong == 10 || @slots == @answer
+      mouse = Board.new(#file)
       #print %x{clear} # Clears the terminal screen
       print @slots
       puts
@@ -52,13 +51,17 @@ attr_reader :answer, :guesses, :guess_index, :slots
       puts "Pick a new letter: "
       input = gets.chomp.downcase
       puts
+      letters = ("a".."z").to_a
+      while letters.include?(input) != true
+        puts "I don't think that was a letter. Try again."
+        input = gets.chomp
+      end
       @guesses.push(input)
       letter_match(input)
       puts
       puts
       end
   end
-
 
   def letter_match(guess)
     answer_copy = Array.new(@answer)
@@ -73,8 +76,8 @@ attr_reader :answer, :guesses, :guess_index, :slots
     puts "You already guessed that letter, silly."
     elsif @slots.include?(guess) == false
       puts "Wrong!"
-      @max_wrong += 1
-      puts "#{@max_wrong} wrong guesses so far."
+      $max_wrong += 1
+      puts "#{$max_wrong} wrong guesses so far."
       #moving ASCII art
     end
   end
@@ -83,7 +86,7 @@ attr_reader :answer, :guesses, :guess_index, :slots
     if @slots == @answer
       puts "The word was #{@answer_whole}!"
       puts "YOU WIN! GOLD STAR FOR YOU!"
-    elsif @max_wrong == 10
+    elsif $max_wrong == 10
       puts "YOU SUCK. YOU KILLED THE MOUSE."
       puts "By the way, the word was #{@answer_whole}"
     end
@@ -91,11 +94,58 @@ attr_reader :answer, :guesses, :guess_index, :slots
 
 end
 
-# class Board
-# attr_reader
-#
-#   def initalize
-#     @board =
-#   end
-#
-# end
+
+class Board
+attr_reader :board_array
+
+  def initalize
+    @board_array = [mouse_1, mouse_2, mouse_3, mouse_4, mouse_5, mouse_6, mouse_7
+
+    end]
+  end
+
+  def move_board
+
+  end
+
+  def mouse_1
+    return
+  end
+
+  def mouse_2
+    return
+  end
+
+  def mouse_3
+    return
+  end
+
+  def mouse_4
+    return
+  end
+
+  def mouse_5
+    return
+  end
+
+  def mouse_6
+    return
+  end
+
+  def mouse_7
+    return
+  end
+
+  def mouse_8
+    return
+  end
+
+  def mouse_9
+    return
+  end
+
+  def dead_mouse
+    return
+  end
+
+end
