@@ -1,8 +1,4 @@
-#to do monday- make it so that the game only tells you that you won or lose when that happens, and doesn't still give you a message about your guess.
-#add better comments to make code clearer and cleaner
-#letters you already guessed
-#no two of the same word in a row
-#center welcome over length of wordart
+require "colorize"
 
 ARTWORK ="""
           __    __    __
@@ -20,6 +16,7 @@ GAME_LOSE = :lose
 
 CORRECT = :correct
 INCORRECT = :incorrect
+REPEAT = :repeat
 
 WORDS = [
   "ANTELOPE",
@@ -32,19 +29,19 @@ WORDS = [
 
 class Game
 
-  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art, :resultfromguess, :wrong_guess_array
+  attr_reader :guesses, :outcome, :answer_chararray, :progress_array, :art, :resultfromguess, :wrong_guess_array, :right_guess_array
 
   def initialize
     #initalize game state
     make_letter_array
     @answer_chararray = make_letter_array
-    print @answer_chararray
     @guesses = []
     @progress_array = ("_" * @answer_chararray.length).split("")
     @art = ARTWORK.lines
     @outcome = :unknown
     @resultfromguess = :unknown
     @wrong_guess_array = []
+    @right_guess_array = []
     puts "\n\nWelcome to Word Guess!"
   end
 
@@ -71,32 +68,42 @@ class Game
       if guessed_letter == char
         progress_array[i].replace(char)
         right_answer_indicator += 1
+      end
+    i += 1
+    end
+
+    right_answer = right_answer_indicator != 0
+    # wrong_answer = right_answer_indicator == 0
+    repeated_right_answer = right_guess_array.include?(guessed_letter)
+    repeated_wrong_answer = wrong_guess_array.include?(guessed_letter)
+
+    #what to do if the answer is correct
+    if right_answer
+      if repeated_right_answer
+        @resultfromguess = REPEAT
+      else #non repeated right answer
         @resultfromguess = CORRECT
+        @right_guess_array.push(guessed_letter)
+        puts @resultfromguess
+        if !progress_array.include?("_")
+          @outcome = GAME_WIN
+        end
       end
-
-      i += 1
-      if !progress_array.include?("_")
-        @outcome = GAME_WIN
+    else #wrong_answer
+      if repeated_wrong_answer
+        @resultfromguess = REPEAT
+      else #non repeated wrong answer
+        #change the art to reflect the wrong answer
+        @art.delete_at(@art.length - 3)
+        @resultfromguess = INCORRECT
+        @wrong_guess_array.push(guessed_letter)
+        if @art.length == 3
+          @outcome = GAME_LOSE
+        end
       end
-    end
-
-    if right_answer_indicator == 0
-      wrong_guess(guessed_letter)
     end
   end
 
-
-  def wrong_guess(guessed_letter)
-    #change the art to reflect the wrong answer
-    @art.delete_at(@art.length - 3)
-    @resultfromguess = INCORRECT
-    print @wrong_guess_array
-    @wrong_guess_array.push(guessed_letter)
-    print @wrong_guess_array
-    if @art.length == 3
-      @outcome = GAME_LOSE
-    end
-  end
 
   def finished?
     @outcome == GAME_WIN || @outcome == GAME_LOSE
@@ -129,6 +136,8 @@ class Board
         display += "Great guess! Your ship is afloat for now\n\n"
       when INCORRECT
         display += "Whoops. Wrong guess. Your ship is sinking!\n\n"
+      when REPEAT
+        display += "You already guessed that letter. Guess again.\n\n"
       end
 
     else
