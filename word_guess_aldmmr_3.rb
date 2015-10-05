@@ -20,11 +20,15 @@ REPEAT = :repeat
 
 WORDS = [
   "ANTELOPE",
-  "APOTATOA",
-  "ASINKINGA",
-  "ATANGERINEA",
-  "AJUICEA",
-  "APOSTMASTER"
+  "POTATO",
+  "SINKING",
+  "TANGERINE",
+  "JUICE",
+  "POSTMASTER",
+  "DELICATESSEN",
+  "CAMOUFLAGE",
+  "OBNOXIOUS",
+  "ZAMBONI"
 ]
 
 class Game
@@ -35,7 +39,6 @@ class Game
     #initalize game state
     make_letter_array
     @answer_chararray = make_letter_array
-    @guesses = []
     @progress_array = ("_" * @answer_chararray.length).split("")
     @art = ARTWORK.lines
     @outcome = :unknown
@@ -54,9 +57,6 @@ class Game
   end
 
   def new_guess(guessed_letter)
-    # #save copy of guess and add it to an array of guesses
-    # @guesses.push(guessed_letter)
-    #RIGHT NOW including right and wrong guesses here!
     check_letter(@progress_array, @answer_chararray, guessed_letter)
   end
 
@@ -73,7 +73,6 @@ class Game
     end
 
     right_answer = right_answer_indicator != 0
-    # wrong_answer = right_answer_indicator == 0
     repeated_right_answer = right_guess_array.include?(guessed_letter)
     repeated_wrong_answer = wrong_guess_array.include?(guessed_letter)
 
@@ -118,16 +117,13 @@ class Board
 
   def new_display
     display = ""
-    # show the artwork, in whatever state it now is in (depends on height of artwork, which determines max turns)
-    # show the word_line in whatever status it is in (all blank, or filled or whatever)
-    # show status messages about game outcome (win, lose, guess again)
-
     # first show artwork
     display += @game.art.join
     display += "\n"
-    # puts display
+    # Then show the game progress (how filled in the word is)
     display += @game.progress_array.join(" ")
     display += "\n\n"
+    #Then show the wrong guesses thus far
     display += "Wrong guesses: #{@game.wrong_guess_array.join(" ")}\n\n"
 
     if !@game.finished?
@@ -156,7 +152,6 @@ end
 
 
 def play_wordguess
-#this is where we actually play the game
   game = Game.new
   board = Board.new(game)
 
@@ -170,7 +165,7 @@ def play_wordguess
     #check to see that we did receive just one letter (no numbers, etc)
     if !guessed_letter.match(/^[A-Z]$/) #regex for one cap letter
       puts "Hey, that's not a letter!"
-      next #skips ahead
+      next
     end
 
     #Pass it to the game object
