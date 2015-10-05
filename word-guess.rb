@@ -71,6 +71,19 @@ class Game
       end
     end
   end
+
+  def play_again
+    while true
+      print "Would you like to play ze game again? (y/n) "
+      game_again = gets.chomp
+      case game_again.downcase
+      when 'y'
+        play_mouse_party
+      when 'n'
+        exit
+      end
+    end
+  end
 end
 
 
@@ -133,34 +146,36 @@ def play_mouse_party
 
   word_array = game.word.split("")
 
-  # puts "The word is #{game.word}"   # prints the word, useful for testing
+  puts "The word is #{game.word}"   # prints the word, useful for testing
 
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
       puts """
-         _______________________
-        < Félictations! You win!  >
-         -----------------------
+         ________________________
+        < Félicitations! You win!  >
+         ------------------------
       """
       puts "\t   #{game.strikes_left} cheeses".colorize(:yellow) + " for you!\n\n"
-      exit
+
+      game.play_again
     end
 
 
     guess = ''
-    until /^[a-zA-Z]+$/.match(guess) # matches strings that consist of only 1 or more letters
+    until /^[[:alpha:]]+$/.match(guess) # matches strings that consist of only 1 or more letters
       print "Give me a letter to guess? "
       guess = gets.chomp.upcase.strip
     end
 
     if guess == game.word.upcase && guess.length > 1
       puts """
-         _______________________
-        < Félictations! You win! >
-         -----------------------
+         ________________________
+        < Félicitations! You win! >
+         ------------------------
       """
       puts "\t   #{game.strikes_left} cheeses".colorize(:yellow) + " for you!\n\n"
-      exit
+
+      game.play_again
     elsif guess.length > 1
       game.strikes_left -= 1
     end
@@ -192,6 +207,8 @@ def play_mouse_party
   """
   puts "Monsieur Le Mouse says: the word was #{game.word}."
   puts "No cheeses".colorize(:yellow) + " for you. Tant pis!\n\n"
+
+  game.play_again
 
 end
 
