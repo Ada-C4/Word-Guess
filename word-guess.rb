@@ -27,7 +27,8 @@ class Game
   end
 
   def print_board(guess)
-    2.times {puts}
+    print %x{clear}
+    puts "\n\n"
     print_image
     print "\n\n\nWord: ".light_magenta
     @answer_array.each do |letter|
