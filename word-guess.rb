@@ -1,4 +1,5 @@
 require "./pacman"
+require "colorize"
 # Game Constants
 MAX_WRONG = 8
 
@@ -12,7 +13,6 @@ class Game
     @wrong_guesses = []
     @correct_guesses = []
     @turn_array = []
-    @image = print_image
   end
 
   def generate_answer
@@ -37,8 +37,7 @@ class Game
         print "_"
       end
     end
-    puts "\n\Wrong guesses:\n#{@wrong_guesses.join(" ")}"
-    puts "\nPlease enter another letter:"
+    puts "\nWrong guesses:\n#{@wrong_guesses.join(" ")}"
    @turn_array = @guess_array
    @guess_array = []
   end
@@ -82,11 +81,16 @@ class Game
       guess = gets.chomp.upcase
       check_guess(guess)
       print_board(guess)
+      if !game_lost? && !game_won?
+        puts "\nPlease enter another letter:"
+      end
     end
     if game_lost?
-      puts "GAME OVER"
+      puts "The secret word was: #{@answer}"
     else
-      puts "GAME OVER: YOU WON! :)"
+      print %x{clear}
+      puts "The secret word was: #{@answer}\n\n"
+      puts PACMAN_WIN
     end
   end
 
@@ -100,8 +104,9 @@ class Game
 
   def start_game
     puts "Welcome to Word Guess!"
-    puts "Enter letters to guess the secret word before pacman eats everything!"
-    puts "What is your guess?"
+    puts "Enter letters to guess the secret word before pacman eats everything!\n\n"
+    print_image
+    puts "\nWhat is your guess?"
   end
 
 end
