@@ -1,6 +1,33 @@
 # This will be our Mouse Party Game. By Jenna and Daphne.
 require "colorize"
 # In this class we will control the workings of the game
+
+MOUSE = """
+    .--,       .--,
+    ( (  \\.---./ ) )
+    '.__/o   o\\__.'
+       {=  ^  =}
+        >  -  <
+       /       \\
+      //       \\\\
+     //|   .   |\\\\
+     \"'\\       /'\"_.-~^`'-.
+        \\  _  /--'         `
+      ___)( )(___
+     (((__) (__)))
+     """
+YOU_WIN = """
+        ________________________
+       < Félicitations! You win! >
+        ------------------------
+     """
+
+YOU_LOSE = """
+      __________
+    <  you lose! >
+      ----------
+  """
+
 class Game
 
   attr_accessor :word, :guess_list, :strikes_left
@@ -28,21 +55,8 @@ class Game
   end
 
   def difficulty
-    mouse = """
-        .--,       .--,
-        ( (  \\.---./ ) )
-        '.__/o   o\\__.'
-           {=  ^  =}
-            >  -  <
-           /       \\
-          //       \\\\
-         //|   .   |\\\\
-         \"'\\       /'\"_.-~^`'-.
-            \\  _  /--'         `
-          ___)( )(___
-         (((__) (__)))
-         """
-    puts mouse
+
+    puts MOUSE.colorize(:light_black)
     puts "Bonjour! Je suis Monsieur Le Mouse."
     puts "You're here to win some of my precious fromage, n'est-ce pas? Allons-y!"
     puts "\nHere are ze rules:"
@@ -101,22 +115,8 @@ class Board
   end
 
   def display
-    mouse = """
-    .--,       .--,
-    ( (  \\.---./ ) )
-    '.__/o   o\\__.'
-       {=  ^  =}
-        >  -  <
-       /       \\
-      //       \\\\
-     //|   .   |\\\\
-     \"'\\       /'\"_.-~^`'-.
-        \\  _  /--'         `
-      ___)( )(___
-     (((__) (__)))
-     """
 
-    puts mouse.colorize(:light_black)
+    puts MOUSE.colorize(:light_black)
 
     cheese_1 = "   ____  "
     cheese_2 = "  /|o  | "
@@ -150,11 +150,7 @@ def play_mouse_party
 
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
-      puts """
-         ________________________
-        < Félicitations! You win!  >
-         ------------------------
-      """
+      puts YOU_WIN
       puts "\t   #{game.strikes_left} cheeses".colorize(:yellow) + " for you!\n\n"
 
       game.play_again
@@ -168,11 +164,7 @@ def play_mouse_party
     end
 
     if guess == game.word.upcase && guess.length > 1
-      puts """
-         ________________________
-        < Félicitations! You win! >
-         ------------------------
-      """
+      puts YOU_WIN
       puts "\t   #{game.strikes_left} cheeses".colorize(:yellow) + " for you!\n\n"
 
       game.play_again
@@ -200,11 +192,7 @@ def play_mouse_party
     puts "You've already guessed: #{game.guess_list.join(", ")}\n\n"
   end
 
-  puts """
-      __________
-    <  you lose! >
-      ----------
-  """
+  puts YOU_LOSE
   puts "Monsieur Le Mouse says: the word was #{game.word}."
   puts "No cheeses".colorize(:yellow) + " for you. Tant pis!\n\n"
 
