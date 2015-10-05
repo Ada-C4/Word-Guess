@@ -1,23 +1,4 @@
-#        ,;'@@';,    ,;'@@';,    ,;'@@';,
-#       |',_@@_,'|  |',_@@_,'|  |',_@@_,'|
-#       |        |  |        |  |        |
-#        '.____.'    '.____.'    '.____.'
-#
-#
-#        ,;'OO';,    ,;'OO';,    ,;'OO';,
-#       |',_OO_,'|  |',_OO_,'|  |',_OO_,'|
-#       |        |  |        |  |        |
-#        '.____.'    '.____.'    '.____.'
-#
-#
-#        ,;'O@';,    ,;'O@';,    ,;'O@';,
-#       |',_@H_,'|  |',_@H_,'|  |',_@H_,'|
-#       |        |  |        |  |        |
-#        '.____.'    '.____.'    '.____.'
-#
-#
-
-
+require "colorize"
 
 
 GAME_WIN = :win
@@ -31,21 +12,28 @@ class Game
 
   #initialize method
   def initialize
-    @answer = generate_answer
+    @answer = ""
     @guesses = []
     @scores = []
     @outcome = :unknown
-    @dash_array = generate_dash_array
+    @dash_array = []
     @bad_guesses = []
   end
 
   #method that picks a random word and splits it into a character array
-  def generate_answer
-    word_array = ["DRAGON","PLANET","BABY","ADA","RUBY","CODING"]
-    answer = word_array[rand(6)].split("")
+  def generate_answer(diff_level)
+    word_array_easy = ["BABY","ADA","RUBY","CAT","DOG","WORD","ATOM"]
+    word_array_medium = ["GUESS","DRAGON","PLANET","CODING","METHOD","FUNCTION"]
+    word_array_hard = ["INITIALIZE","VARIABLE","ATTRIBUTE","CONDITIONAL","DEBUGGING"]
+    if diff_level == "easy"
+      @answer = word_array_easy[rand(word_array_easy.length)].split("")
+    elsif diff_level == "medium"
+      @answer = word_array_medium[rand(word_array_medium.length)].split("")
+    elsif diff_level == "hard"
+      @answer = word_array_hard[rand(word_array_hard.length)].split("")
+    end
     # answer = ["D","R","A","G","O","N"]
     # make array of dashes that is the same length as the answer array
-    return answer
   end
 
   def generate_dash_array
@@ -54,7 +42,7 @@ class Game
       dash_array.push("_")
     end
 
-    return dash_array
+    @dash_array = dash_array
   end
 
 
@@ -111,21 +99,56 @@ class Board
   end
 
   def new_display
-row_1 = ["  ,;'@@';,  " , "  ,;'@@';,  ", "  ,;'@@';,  " , " |',_@@_,'| ", " |',_@@_,'| ", " |',_@@_,'| ", " |        | ", " |        | ", " |        | ", "  '.____.'  ", "  '.____.'  ", "  '.____.'  "]
+# row_1 = ["  ,;'@@';,  ".colorize(:red) , "  ,;'@@';,  ", "  ,;'@@';,  " , " |',_@@_,'| ", " |',_@@_,'| ", " |',_@@_,'| ", " |        | ", " |        | ", " |        | ", "  '.____.'  ", "  '.____.'  ", "  '.____.'  "]
+
+
+row_1 = ["  ,;'" ,
+  "@@".colorize(:red),
+  "';,  ",
+  "  ,;'" ,
+  "@@".colorize(:red),
+  "';,  ",
+  "  ,;'" ,
+  "@@".colorize(:red),
+  "';,  ", #end top row
+  " |',_" ,
+  "@@".colorize(:red),
+  "_,'| ",
+  " |',_" ,
+  "@@".colorize(:red),
+  "_,'| ",
+  " |',_" ,
+  "@@".colorize(:red),
+  "_,'| ",
+  " |        | ".colorize(:green),
+  " |        | ".colorize(:green),
+  " |        | ".colorize(:green),
+  "  '.____.'  ".colorize(:green),
+  "  '.____.'  ".colorize(:green),
+  "  '.____.'  ".colorize(:green)]
+
 
     if @game.bad_guesses.length == 0
       # print 9 sushi
       new_display = %Q(
-        #{row_1[0]} #{row_1[1]} #{row_1[2]}
-        #{row_1[3]} #{row_1[4]} #{row_1[5]}
-        #{row_1[6]} #{row_1[7]} #{row_1[8]}
-        #{row_1[9]} #{row_1[10]} #{row_1[11]}
+      #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]} #{row_1[6]}#{row_1[7]}#{row_1[8]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]} #{row_1[15]}#{row_1[16]}#{row_1[17]}
+      #{row_1[18]} #{row_1[19]} #{row_1[20]}
+      #{row_1[21]} #{row_1[22]} #{row_1[23]}
+      )
 
-        #{row_1[0]} #{row_1[1]} #{row_1[2]}
-        #{row_1[3]} #{row_1[4]} #{row_1[5]}
-        #{row_1[6]} #{row_1[7]} #{row_1[8]}
-        #{row_1[9]} #{row_1[10]} #{row_1[11]}
-        )
+
+      # %Q(
+      #   #{row_1[0]} #{row_1[1]} #{row_1[2]}
+      #   #{row_1[3]} #{row_1[4]} #{row_1[5]}
+      #   #{row_1[6]} #{row_1[7]} #{row_1[8]}
+      #   #{row_1[9]} #{row_1[10]} #{row_1[11]}
+      #
+      #   #{row_1[0]} #{row_1[1]} #{row_1[2]}
+      #   #{row_1[3]} #{row_1[4]} #{row_1[5]}
+      #   #{row_1[6]} #{row_1[7]} #{row_1[8]}
+      #   #{row_1[9]} #{row_1[10]} #{row_1[11]}
+      #   )
         #{row_1[0]} #{row_1[1]} #{row_1[2]}
         #{row_1[3]} #{row_1[4]} #{row_1[5]}
         #{row_1[6]} #{row_1[7]} #{row_1[8]}
@@ -231,11 +254,20 @@ def play_word_guess
   game = Game.new
   board = Board.new(game)
 
+  puts "Welcome to Word Guess! What difficulty level would you like to play? Please choose easy, medium, or hard:"
+  diff_level = gets.chomp.downcase
+  while diff_level != "easy" && diff_level != "medium" && diff_level != "hard"
+    puts "That's not a difficulty level! Please choose easy, medium, or hard:"
+    diff_level = gets.chomp.downcase
+  end
+  game.generate_answer(diff_level)
+  game.generate_dash_array
+
   print board.new_display
   letters_array = ("A".."Z").to_a
 
   while !game.finished?
-    # do validation later - did you put in a number, have you already guessed that letter, etc.
+    # do validation later - did you put in a number, have you already guessed that letter, etc
     puts "Guess a letter:"
     if game.guesses != []
       puts "You have already guessed: #{game.guesses}"
