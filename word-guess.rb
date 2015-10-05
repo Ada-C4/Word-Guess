@@ -111,6 +111,8 @@ def play_mouse_party
 
   word_array = game.word.split("")
 
+  puts "The word is #{game.word}"   # prints the word, useful for testing
+
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
       puts """
@@ -128,6 +130,18 @@ def play_mouse_party
       guess = gets.chomp.upcase.strip
     end
 
+    if guess == game.word.upcase && guess.length > 1
+      puts "You win!"
+      puts """
+         __________
+        < you win! >
+         ----------
+      """
+      exit
+    elsif guess.length > 1
+      game.strikes_left -= 1
+    end
+
     if word_array.include?(guess)
       word_array.length.times do |i|
         if word_array[i] == guess
@@ -135,7 +149,7 @@ def play_mouse_party
         end
       end
     else
-      if !game.guess_list.include?(guess)
+      if !game.guess_list.include?(guess) && guess.length == 1
         game.strikes_left -= 1
       end
     end
@@ -149,9 +163,9 @@ def play_mouse_party
   end
 
   puts """
-     __________
-    < you lose >
-     ----------
+      __________
+    <  you lose! >
+      ----------
   """
   puts "Monsieur Le Mouse says: the word was #{game.word}. Tant pis!"
 
