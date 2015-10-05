@@ -1,5 +1,5 @@
 require "colorize"
-MAX_ERRORS = 7
+MAX_ERRORS = 6
 
 class Game
   attr_accessor :answer, :right_guesses, :user_array
@@ -50,7 +50,10 @@ end
 #check if the player won- true. false - continue
 def won?
   if @right_guesses == @answer_array.length
-    puts "Yay!! you won the game and saved the fish"
+    puts
+    puts
+    puts
+    puts "Yay!! you won the game and saved the fish".center(70).red
     return true
   else
     return false
@@ -82,6 +85,9 @@ class Game_display
 
   def play
     print @fish[0]
+    puts
+    puts "Welcome to guess words game!".center(70).yellow
+    puts "Try to guess the secret word".center(70).yellow
     @game.print_user_array
     while @num_errors < MAX_ERRORS
       puts
@@ -97,7 +103,7 @@ class Game_display
          end
          display_guessed_letters
      else
-        puts "Sorry '#{@guess}' in not in that word! Try again #{@num_errors}"
+        puts "Sorry '#{@guess}' in not in that word! Try again "
         @num_errors += 1
         print @fish[@num_errors]
         @game.print_user_array
@@ -111,8 +117,16 @@ class Game_display
     guessed_letter_array.push(@guess)
     puts
     puts
+    70.times {print "-"}
+    puts
     puts " Letters that you've already guessed"
     print guessed_letter_array
+    puts
+    70.times {print "-"}
+  end
+
+  def red_eye
+    "X".red
   end
 
 def create_fish
@@ -148,7 +162,7 @@ def create_fish
                           ~                            ~
                           \\   '    o      '
                           /\\ o       \\  o
-                        >=)X>    '   /\\ '
+                        >=)#{red_eye}>    '   /\\ '
                           \\/   \\   >=)'>        ~
                           /    /\\    \\/
                    ~         >=)'>   /     .
@@ -174,8 +188,8 @@ def create_fish
                           ~                            ~
                           \\   '    o      '
                           /\\ o       \\  o
-                        >=)X>    '   /\\ '
-                          \\/   \\   >=)X>        ~
+                        >=)#{red_eye}>    '   /\\ '
+                          \\/   \\   >=)#{red_eye}>        ~
                           /    /\\    \\/
                    ~         >=)'>   /     .
                                \\/                   )
@@ -199,10 +213,10 @@ def create_fish
                           ~                            ~
                           \\   '    o      '
                           /\\ o       \\  o
-                        >=)X>    '   /\\ '
-                          \\/   \\   >=)X>        ~
+                        >=)#{red_eye}>    '   /\\ '
+                          \\/   \\   >=)#{red_eye}>        ~
                           /    /\\    \\/
-                   ~         >=)X>   /     .
+                   ~         >=)#{red_eye}>   /     .
                                \\/                   )
                                /
                                \\   '    o      '
@@ -226,15 +240,15 @@ def create_fish
                           ~                            ~
                           \\   '    o      '
                           /\\ o       \\  o
-                        >=)X>    '   /\\ '
-                          \\/   \\   >=)X>        ~
+                        >=)#{red_eye}>    '   /\\ '
+                          \\/   \\   >=)#{red_eye}>        ~
                           /    /\\    \\/
-                   ~         >=)X>   /     .
+                   ~         >=)#{red_eye}>   /     .
                                \\/                   )
                                /
                                \\   '    o      '
                                /\\ o       \\  o
-                             >=)X>    '   /\\ '
+                             >=)#{red_eye}>    '   /\\ '
                                \\/   \\   >=)'>        ~
                                /    /\\    \\/
                         ~         >=)'>   /     .
@@ -253,18 +267,18 @@ def create_fish
                         ~                            ~
                         \\   '    o      '
                         /\\ o       \\  o
-                      >=)X>    '   /\\ '
-                        \\/   \\   >=)X>        ~
+                      >=)#{red_eye}>    '   /\\ '
+                        \\/   \\   >=)#{red_eye}>        ~
                         /    /\\    \\/
-                 ~         >=)X>   /     .
+                 ~         >=)#{red_eye}>   /     .
                              \\/                   )
                              /
                              \\   '    o      '
                              /\\ o       \\  o
-                           >=)X>    '   /\\ '
+                           >=)#{red_eye}>    '   /\\ '
                              \\/   \\   >=)'>        ~
                              /    /\\    \\/
-                      ~         >=)X>   /     .
+                      ~         >=)#{red_eye}>   /     .
                                   \\/                   )
                                   /                   (
                                         ~          )   )
@@ -279,18 +293,18 @@ def create_fish
                           ~                            ~
                           \\   '    o      '
                           /\\ o       \\  o
-                        >=)X>    '   /\\ '
-                          \\/   \\   >=)X>        ~
+                        >=)#{red_eye}>    '   /\\ '
+                          \\/   \\   >=)#{red_eye}>        ~
                           /    /\\    \\/
-                   ~         >=)X>   /     .
+                   ~         >=)#{red_eye}>   /     .
                                \\/                   )
                                /
                                \\   '    o      '
                                /\\ o       \\  o
-                             >=)X>    '   /\\ '
-                               \\/   \\   >=)X>        ~
+                             >=)#{red_eye}>    '   /\\ '
+                               \\/   \\   >=)#{red_eye}>        ~
                                /    /\\    \\/
-                        ~         >=)X>   /     .
+                        ~         >=)#{red_eye}>   /     .
                                     \\/                   )
                                     /                   (
                                           ~          )   )
