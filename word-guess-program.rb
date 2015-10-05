@@ -40,8 +40,9 @@ attr_reader :answer, :guesses, :guess_index, :slots
 
   def game_play
     # loop until game end
+    mouse = Board.new
     until $max_wrong == 10 || @slots == @answer
-      mouse = Board.new(#file)
+      print mouse.move_board
       #print %x{clear} # Clears the terminal screen
       print @slots
       puts
@@ -96,56 +97,54 @@ end
 
 
 class Board
-attr_reader :board_array
+attr_reader
 
-  def initalize
-    @board_array = [mouse_1, mouse_2, mouse_3, mouse_4, mouse_5, mouse_6, mouse_7
-
-    end]
+  def initialize
+    @board_array = [mouse_1, mouse_2, mouse_3, mouse_4, mouse_5, mouse_6, mouse_7, mouse_8, mouse_9, dead_mouse]
   end
 
   def move_board
-
+    puts @board_array[$max_wrong]
   end
 
   def mouse_1
-    return
+    return "1"
   end
 
   def mouse_2
-    return
+    return "2"
   end
 
   def mouse_3
-    return
+    return "3"
   end
 
   def mouse_4
-    return
+    return "4"
   end
 
   def mouse_5
-    return
+    return "5"
   end
 
   def mouse_6
-    return
+    return "6"
   end
 
   def mouse_7
-    return
+    return "7"
   end
 
   def mouse_8
-    return
+    return "8"
   end
 
   def mouse_9
-    return
+    return "9"
   end
 
   def dead_mouse
-    return
+    return "dead"
   end
 
 end
