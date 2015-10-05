@@ -2,9 +2,11 @@ require "./pacman"
 require "colorize"
 # Game Constants
 MAX_WRONG = 8
-
 WORDS = %w(flower pancake caterpillar avocado dragon sushi kitten monkey football crazy mango
- pineapple developer engineer waffle toast penguin diamond coffee magenta breakfast croissant)
+ pineapple developer engineer waffle toast penguin diamond coffee magenta breakfast croissant
+ sweater potato watermelon slug canteloupe grapefruit soggy thunder computer program puppy sausage
+ library llama octopus manatee dolphin narwhal unicorn rainbow cardigan muffin juice refridgerator
+ awesome noodles dinosaur)
 
 class Game
   def initialize
