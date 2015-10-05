@@ -21,7 +21,6 @@ def answer_to_array (answer)
   (answer.length).times do
     @user_array.push("_")
   end
-  print @user_array
 end
 
 # Check if the guess is correct - boolean
@@ -33,15 +32,16 @@ def check_guess (guess)
      if (letter === guess) && (@user_array[n] != guess)
        @right_guesses += 1
        @user_array[n] = guess
-       n += 1
        check = true
      end
+     n += 1
   end
    return check
 end
 
 # print _array
 def print_user_array
+  puts
   print @user_array
 end
 
@@ -60,41 +60,253 @@ end
 
 class Game_display
 
-  attr_accessor :guess, :num_errors, :words, :game
+  attr_accessor :guess, :num_errors, :words, :game, :guessed_letter_array, :fish
 
   def initialize
     @guess = ""
     @num_errors = 0
-    @words = ["cat", "door"]
+    @words = ["door"]
     @game = Game.new
     @game.answer_to_array(@game.choose_word(@words))
+    @guessed_letter_array = []
+    @fish = create_fish
 
   end
 
+#  def print_fish
+#    print @fish[@num_errors]
+#  end
+
+
+
   def play
+    print @fish[0]
+    @game.print_user_array
     while @num_errors < MAX_ERRORS
+      puts
       puts "Choose a letter"
       @guess = gets.chomp  # needs a check for valid letter
      if @game.check_guess(@guess)
-         puts "Good job!"
+         puts "Good job! #{@fish.length}"
+         print @fish[@num_errors]
+         @game.print_user_array
          if @game.won?
            break # picture?
          end
+         display_guessed_letters
      else
-        puts "No '#{@guess}' in that word! Try again"
+        puts "Sorry '#{@guess}' in not in that word! Try again #{@num_errors}"
         @num_errors += 1
+        @game.print_user_array
+        print @fish[@num_errors]
+        display_guessed_letters
      end
     end
   end
 
+  def display_guessed_letters
+    #after each turn, the previous letter should be added to this array, then the array should be displayed on the screen
+    guessed_letter_array.push(@guess)
+    puts
+    puts " Letters that you've already guessed"
+    print guessed_letter_array
+  end
+
+def create_fish
+  @fish = ["""
+  ~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+            ~                            ~
+            \\   '    o      '
+            /\\ o       \\  o
+          >=)'>    '   /\\ '
+            \\/   \\   >=)'>        ~
+            /    /\\    \\/
+     ~         >=)'>   /     .
+                 \\/                   )
+                 /
+                 \\   '    o      '
+                 /\\ o       \\  o
+               >=)'>    '   /\\ '
+                 \\/   \\   >=)'>        ~
+                 /    /\\    \\/
+          ~         >=)'>   /     .
+                      \\/                   )
+                      /                   (
+                            ~          )   )
+            }     ~              (    (   (
+           {                      )    )   )
+            }  }         .       (    (   (
+           {  {               /^^^^^^^^^^^^jgs
+          ^^^^^^^^^\         /
+                    ^^^^^^^^^
+                    """,
+  """
+  ~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+            ~                            ~
+            \\   '    o      '
+            /\\ o       \\  o
+          >=)X>    '   /\\ '
+            \\/   \\   >=)'>        ~
+            /    /\\    \\/
+     ~         >=)'>   /     .
+                 \\/                   )
+                 /
+                 \\   '    o      '
+                 /\\ o       \\  o
+               >=)'>    '   /\\ '
+                 \\/   \\   >=)'>        ~
+                 /    /\\    \\/
+          ~         >=)'>   /     .
+                      \\/                   )
+                      /                   (
+                            ~          )   )
+            }     ~              (    (   (
+           {                      )    )   )
+            }  }         .       (    (   (
+           {  {               /^^^^^^^^^^^^jgs
+          ^^^^^^^^^\         /
+                    ^^^^^^^^^
+                    """, """
+  ~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+            ~                            ~
+            \\   '    o      '
+            /\\ o       \\  o
+          >=)X>    '   /\\ '
+            \\/   \\   >=)X>        ~
+            /    /\\    \\/
+     ~         >=)'>   /     .
+                 \\/                   )
+                 /
+                 \\   '    o      '
+                 /\\ o       \\  o
+               >=)'>    '   /\\ '
+                 \\/   \\   >=)'>        ~
+                 /    /\\    \\/
+          ~         >=)'>   /     .
+                      \\/                   )
+                      /                   (
+                            ~          )   )
+            }     ~              (    (   (
+           {                      )    )   )
+            }  }         .       (    (   (
+           {  {               /^^^^^^^^^^^^jgs
+          ^^^^^^^^^\         /
+                    ^^^^^^^^^ """, """
+  ~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+            ~                            ~
+            \\   '    o      '
+            /\\ o       \\  o
+          >=)X>    '   /\\ '
+            \\/   \\   >=)X>        ~
+            /    /\\    \\/
+     ~         >=)X>   /     .
+                 \\/                   )
+                 /
+                 \\   '    o      '
+                 /\\ o       \\  o
+               >=)'>    '   /\\ '
+                 \\/   \\   >=)'>        ~
+                 /    /\\    \\/
+          ~         >=)'>   /     .
+                      \\/                   )
+                      /                   (
+                            ~          )   )
+            }     ~              (    (   (
+           {                      )    )   )
+            }  }         .       (    (   (
+           {  {               /^^^^^^^^^^^^jgs
+          ^^^^^^^^^\         /
+                    ^^^^^^^^^ """,
+                    """
+
+  ~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+            ~                            ~
+            \\   '    o      '
+            /\\ o       \\  o
+          >=)X>    '   /\\ '
+            \\/   \\   >=)X>        ~
+            /    /\\    \\/
+     ~         >=)X>   /     .
+                 \\/                   )
+                 /
+                 \\   '    o      '
+                 /\\ o       \\  o
+               >=)X>    '   /\\ '
+                 \\/   \\   >=)'>        ~
+                 /    /\\    \\/
+          ~         >=)'>   /     .
+                      \\/                   )
+                      /                   (
+                            ~          )   )
+            }     ~              (    (   (
+           {                      )    )   )
+            }  }         .       (    (   (
+           {  {               /^^^^^^^^^^^^jgs
+          ^^^^^^^^^\         /
+                    ^^^^^^^^^
+                    """,
+                    """
+~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+          ~                            ~
+          \\   '    o      '
+          /\\ o       \\  o
+        >=)X>    '   /\\ '
+          \\/   \\   >=)X>        ~
+          /    /\\    \\/
+   ~         >=)X>   /     .
+               \\/                   )
+               /
+               \\   '    o      '
+               /\\ o       \\  o
+             >=)X>    '   /\\ '
+               \\/   \\   >=)'>        ~
+               /    /\\    \\/
+        ~         >=)X>   /     .
+                    \\/                   )
+                    /                   (
+                          ~          )   )
+          }     ~              (    (   (
+         {                      )    )   )
+          }  }         .       (    (   (
+         {  {               /^^^^^^^^^^^^jgs
+        ^^^^^^^^^\         /
+                  ^^^^^^^^^ """,
+                  """
+~^~^~^~^~^~^~^~^~^~^~^^~^~^~^~^~^~
+          ~                            ~
+          \\   '    o      '
+          /\\ o       \\  o
+        >=)X>    '   /\\ '
+          \\/   \\   >=)X>        ~
+          /    /\\    \\/
+   ~         >=)X>   /     .
+               \\/                   )
+               /
+               \\   '    o      '
+               /\\ o       \\  o
+             >=)X>    '   /\\ '
+               \\/   \\   >=)X>        ~
+               /    /\\    \\/
+        ~         >=)X>   /     .
+                    \\/                   )
+                    /                   (
+                          ~          )   )
+          }     ~              (    (   (
+         {                      )    )   )
+          }  }         .       (    (   (
+         {  {               /^^^^^^^^^^^^jgs
+        ^^^^^^^^^\         /
+                  ^^^^^^^^^ """
+]
+end
 
 
 # new file
 
- game_board = Game_display.new
-
+game_board = Game_display.new
 
 game_board.play
+
 
 
 
