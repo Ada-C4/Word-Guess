@@ -1,4 +1,5 @@
 require "colorize"
+require "lolcat"
 
 
 GAME_WIN = :win
@@ -135,6 +136,11 @@ row_1 = ["  ,;'" ,
       #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]} #{row_1[15]}#{row_1[16]}#{row_1[17]}
       #{row_1[18]} #{row_1[19]} #{row_1[20]}
       #{row_1[21]} #{row_1[22]} #{row_1[23]}
+
+      #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]} #{row_1[6]}#{row_1[7]}#{row_1[8]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]} #{row_1[15]}#{row_1[16]}#{row_1[17]}
+      #{row_1[18]} #{row_1[19]} #{row_1[20]}
+      #{row_1[21]} #{row_1[22]} #{row_1[23]}
       )
 
 
@@ -158,16 +164,16 @@ row_1 = ["  ,;'" ,
     elsif @game.bad_guesses.length == 1
     # takes one away
     new_display = %Q(
-      #{row_1[0]} #{row_1[1]} #{row_1[2]}
-      #{row_1[3]} #{row_1[4]} #{row_1[5]}
-      #{row_1[6]} #{row_1[7]} #{row_1[8]}
-      #{row_1[9]} #{row_1[10]} #{row_1[11]}
+    #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]} #{row_1[6]}#{row_1[7]}#{row_1[8]}
+    #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]} #{row_1[15]}#{row_1[16]}#{row_1[17]}
+    #{row_1[18]} #{row_1[19]} #{row_1[20]}
+    #{row_1[21]} #{row_1[22]} #{row_1[23]}
 
-      #{row_1[0]} #{row_1[1]}
-      #{row_1[3]} #{row_1[4]}
-      #{row_1[6]} #{row_1[7]}
-      #{row_1[9]} #{row_1[10]}
-      )
+    #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]}
+    #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]}
+    #{row_1[18]} #{row_1[19]}
+    #{row_1[21]} #{row_1[22]}
+    )
 
       #{row_1[0]} #{row_1[1]}
       #{row_1[3]} #{row_1[4]}
@@ -177,43 +183,43 @@ row_1 = ["  ,;'" ,
     elsif @game.bad_guesses.length == 2
 
       new_display = %Q(
-        #{row_1[0]} #{row_1[1]} #{row_1[2]}
-        #{row_1[3]} #{row_1[4]} #{row_1[5]}
-        #{row_1[6]} #{row_1[7]} #{row_1[8]}
-        #{row_1[9]} #{row_1[10]} #{row_1[11]}
+      #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]} #{row_1[6]}#{row_1[7]}#{row_1[8]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]} #{row_1[15]}#{row_1[16]}#{row_1[17]}
+      #{row_1[18]} #{row_1[19]} #{row_1[20]}
+      #{row_1[21]} #{row_1[22]} #{row_1[23]}
 
-        #{row_1[0]}
-        #{row_1[3]}
-        #{row_1[6]}
-        #{row_1[9]}
-        )
+      #{row_1[0]}#{row_1[1]}#{row_1[2]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]}
+      #{row_1[18]}
+      #{row_1[21]}
+      )
 
     elsif @game.bad_guesses.length == 3
 
       new_display = %Q(
-        #{row_1[0]} #{row_1[1]} #{row_1[2]}
-        #{row_1[3]} #{row_1[4]} #{row_1[5]}
-        #{row_1[6]} #{row_1[7]} #{row_1[8]}
-        #{row_1[9]} #{row_1[10]} #{row_1[11]}
-          )
+      #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]} #{row_1[6]}#{row_1[7]}#{row_1[8]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]} #{row_1[15]}#{row_1[16]}#{row_1[17]}
+      #{row_1[18]} #{row_1[19]} #{row_1[20]}
+      #{row_1[21]} #{row_1[22]} #{row_1[23]}
+      )
 
     elsif @game.bad_guesses.length == 4
 
       new_display = %Q(
-        #{row_1[0]} #{row_1[1]}
-        #{row_1[3]} #{row_1[4]}
-        #{row_1[6]} #{row_1[7]}
-        #{row_1[9]} #{row_1[10]}
-          )
+      #{row_1[0]}#{row_1[1]}#{row_1[2]} #{row_1[3]}#{row_1[4]}#{row_1[5]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]} #{row_1[12]}#{row_1[13]}#{row_1[14]}
+      #{row_1[18]} #{row_1[19]}
+      #{row_1[21]} #{row_1[22]}
+      )
 
     elsif @game.bad_guesses.length == 5
 
       new_display = %Q(
-        #{row_1[0]}
-        #{row_1[3]}
-        #{row_1[6]}
-        #{row_1[9]}
-          )
+      #{row_1[0]}#{row_1[1]}#{row_1[2]}
+      #{row_1[9]}#{row_1[10]}#{row_1[11]}
+      #{row_1[18]}
+      #{row_1[21]}
+      )
 
     elsif @game.bad_guesses.length == 6
       new_display = %Q(
