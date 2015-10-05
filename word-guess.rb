@@ -71,14 +71,14 @@ class Game
   end
 
   def choose_language
-    print "Would you like to play the game in English or French? "
+    print "Would you like to play the game in English ou 'en français'? "
 
     while true
       language = gets.chomp
       case language.downcase
-      when 'english'
+      when 'english', 'anglais'
         return :english
-      when 'french'
+      when 'french', 'francais', 'français'
         return :french
       else
         print "Pick a language: "
@@ -87,30 +87,33 @@ class Game
   end
 
   def difficulty
-
     puts MOUSE.colorize(:light_black)
     puts "Bonjour! Je suis Monsieur Le Mouse."
     puts "You're here to win some of my precious fromage, n'est-ce pas? Allons-y!"
-    puts "\nHere are ze rules:"
+    puts "\nHere are ze rules:" if @language == :english
+    puts "\nVoici les règles:" if @language == :french
     puts "Zees iz a word-guess game. Guess the word I give you, either one letter at a time or the whole word at once."
     puts "If you guess individual letters correctly, they will be shown on the board."
     puts "But if you guess wrong, I take away ze cheese!"
     puts "\nYou get the most guesses in Easy mode and the fewest in Hard."
     puts "Bonne chance!"
-    puts "\n1. Easy"
-    puts "2. Medium"
-    puts "3. Hard\n\n"
+    puts "\n1. Easy" if @language == :english
+    puts "2. Medium" if @language == :english
+    puts "3. Hard\n\n" if @language == :english
+    puts "\n1. Facile" if @language == :french
+    puts "2. Moyen" if @language == :french
+    puts "3. Difficile\n\n" if @language == :french
 
     print "Select ze difficulty level: "
 
     while true
       difficulty_level = gets.chomp
       case difficulty_level.downcase
-      when '1', '1.', 'easy'
+      when '1', '1.', 'easy', 'facile'
         return @word.length + 5
-      when '2', '2.', 'medium'
+      when '2', '2.', 'medium', 'moyen'
         return @word.length + 2
-      when '3', '3.', 'hard'
+      when '3', '3.', 'hard', 'difficile'
         return @word.length
       else
         print "Pick a difficulty: "
@@ -178,7 +181,7 @@ def play_mouse_party
 
   word_array = game.word.split("")
 
-  puts "The word is #{game.word}"   # prints the word, useful for testing
+  # puts "The word is #{game.word}"   # prints the word, useful for testing
 
   while game.strikes_left > 0
     if !board.blanks.include?("_ ")
