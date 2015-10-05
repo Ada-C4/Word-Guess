@@ -1,101 +1,101 @@
+MAX_ERRORS = 7
+
 class Game
-  words = ["cat", "dog", "tree", "apple"]
-  _array =[]
-  @under_num = 0
+  attr_accessor :answer, :right_guesses, :user_array
 
-  #fish_images = [fish1, fish2, fish3, fish4, fish5, fish6]
-  answer = words[rand(words.length-1)]
-  fish1 = "I am a 6-alive-fish image"
+def initialize
+  @answer_array = []
+  @user_array = []
+  @right_guesses = 0
+end
 
-  puts "Hi! welcome to the Guess words game"
-  puts "The fish will be fed only after you win"
-  puts "Save the fish!!!"
-  puts fish1
+# Choose a random word and turn it into array
+def choose_word (array_words)
+  answer = array_words[rand(array_words.length-1)]
+  @answer_array = answer.split("")
+  return @answer_array
+end
 
-  #creat new array of underscores
+# make a new array of underscores - in the same length of the answer
+def answer_to_array (answer)
   (answer.length).times do
-    _array.push("_")
-    print "_ "
+    @user_array.push("_")
   end
+  print @user_array
+end
 
-
-
-  #creat new array of letters
-  answer_array = answer.split("")
-
-
-  puts
-  puts "Guess a letter"
-  @guess = gets.chomp
-  count = 1
-  @num = 0
-
-
-  while count < 7
-    answer_array.each do |n|
-      if n === @guess
-        _array[@num] = n
-        @num +=1
-        print _array
-        if (@num == answer_array.length)
-          puts
-          puts "Yay! you won and saved the fish"
-          exit
-        end
-      end
-    end
-      puts " Choose another letter"
-      @guess = gets.chomp
-    #   print _array
-
-      puts
-
-    count += 1
+# Check if the guess is correct - boolean
+# and update the _array
+def check_guess (guess)
+  check = false
+  n = 0 # just counting
+   @answer_array.each do |letter|
+     if (letter === guess) && (@user_array[n] != guess)
+       @right_guesses += 1
+       @user_array[n] = guess
+       n += 1
+       check = true
+     end
   end
+   return check
+end
 
+# print _array
+def print_user_array
+  print @user_array
 end
 
 
+#check if the player won- true. false - continue
+def won?
+  if @right_guesses == @answer_array.length
+    puts "Yay!! you won the game and saved the fish"
+    return true
+  else
+    return false
+  end
+end
+
+end
+
+class Game_display
+
+  attr_accessor :guess, :num_errors, :words, :game
+
+  def initialize
+    @guess = ""
+    @num_errors = 0
+    @words = ["cat", "door"]
+    @game = Game.new
+    @game.answer_to_array(@game.choose_word(@words))
+
+  end
+
+  def play
+    while @num_errors < MAX_ERRORS
+      puts "Choose a letter"
+      @guess = gets.chomp  # needs a check for valid letter
+     if @game.check_guess(@guess)
+         puts "Good job!"
+         if @game.won?
+           break # picture?
+         end
+     else
+        puts "No '#{@guess}' in that word! Try again"
+        @num_errors += 1
+     end
+    end
+  end
 
 
 
+# new file
+
+ game_board = Game_display.new
+
+
+game_board.play
 
 
 
-
-
-
-
-
-
-# # check if you won
-#   _array.each do |n|
-#     if n === "_"
-#
-#     end
-#   end
-#   print _array
-#   puts
-#   print "Guess another letter"
-#   @guess = gets.chomp
-#
-#    if @check
-#      puts "Yay!!! you saved the fish!!!"
-#      break
-#    else
-#      "Guess another letter"
-#      @guess = gets.chomp
-#
-#   count +=1
-#   end
-#
-# end
-#
-#
-#
-#
-#
-# end
-#
-# puts answer_array[0]
-# end
+end
