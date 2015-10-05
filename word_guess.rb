@@ -31,7 +31,7 @@ class Game
     if letter_guess.length == @answer.length
       if letter_guess == @answer
         show_results
-        exit
+        play_again
       else
         puts "NOT IT!"
         @number_of_guesses_left -= 1
@@ -63,11 +63,24 @@ class Game
 )|’ー’|(
 ||||||||
     """.blue.blink
+    puts "\n"
     else
       puts "You lost :("
       puts "#{@answer} was the right answer."
     end
   end
+
+  def play_again
+    puts "That was fun! Do you want to play again?"
+    response = gets.chomp.downcase
+    if response == "yes" || response == "y"
+      play_game
+    else
+      puts "Ok bye."
+      exit
+    end
+  end
+
 end
 
 class Board
@@ -125,6 +138,7 @@ def play_game
     g.check_letters(letter_guess)
   end
   g.show_results
+  g.play_again
 end
 
 play_game
