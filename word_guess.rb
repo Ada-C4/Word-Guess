@@ -1,5 +1,4 @@
 require "colorize"
-require "lolcat"
 
 
 GAME_WIN = :win
