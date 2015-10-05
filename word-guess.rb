@@ -30,7 +30,7 @@ YOU_LOSE = """
 
 class Game
 
-  attr_accessor :word, :guess_list, :strikes_left
+  attr_accessor :word, :guess_list, :strikes_left, :language
 
   def initialize
     @guess_list = [] # the letters that the player has guessed, starts at none
@@ -194,7 +194,8 @@ def play_mouse_party
 
     guess = ''
     until /^[[:alpha:]]+$/.match(guess) # matches strings that consist of only 1 or more letters
-      print "Give me a letter to guess? "
+      print "Give me a letter to guess: " if game.language == :english
+      print "Donnez-moi une lettre à deviner: " if game.language == :french
       guess = gets.chomp.upcase.strip
     end
 
@@ -224,7 +225,8 @@ def play_mouse_party
     end
 
     board.display
-    puts "You've already guessed: #{game.guess_list.join(", ")}\n\n"
+    puts "You've already guessed: #{game.guess_list.join(", ")}\n\n" if game.language == :english
+    puts "Vous avez déjà deviné: #{game.guess_list.join(", ")}\n\n" if game.language == :french
   end
 
   puts YOU_LOSE
