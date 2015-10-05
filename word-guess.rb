@@ -38,7 +38,7 @@ class Game
       end
     end
     puts "\n\Wrong guesses:\n#{@wrong_guesses.join(" ")}"
-
+    puts "\nPlease enter another letter:"
    @turn_array = @guess_array
    @guess_array = []
   end
@@ -82,7 +82,6 @@ class Game
       guess = gets.chomp.upcase
       check_guess(guess)
       print_board(guess)
-      puts "\nPlease enter another letter:"
     end
     if game_lost?
       puts "GAME OVER"
