@@ -78,17 +78,19 @@ attr_reader :answer, :guesses, :guess_index, :slots
     if @guesses.include?(guess)
     puts "You already guessed that letter, silly."
     end
+    # Iterating through each occurence of guess letter in answer array
     while answer_copy.include?(guess)
       @guess_index = answer_copy.find_index(guess)
       @slots[@guess_index + num_match] = guess
       answer_copy.delete_at(@guess_index)
       num_match += 1
     end
+    # If wrong answer, add to max_wrong and print wrong guesses
     if @slots.include?(guess) != true
       puts "Wrong!"
       $max_wrong += 1
-      puts "#{$max_wrong} wrong guesses so far."
     end
+    puts "#{$max_wrong} wrong guesses so far."
   end
 
   def game_end
